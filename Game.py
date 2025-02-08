@@ -1,6 +1,10 @@
 # Example file showing a circle moving on screen
 import pygame
+<<<<<<< Updated upstream
 from Planet import PlanetRenderer, SolarSystem, COLORS,PlanetManager
+=======
+import
+>>>>>>> Stashed changes
 
 # pygame setup
 pygame.init()
