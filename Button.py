@@ -1,6 +1,11 @@
 import pygame
 
+# Vérifier si le module font est initialisé, sinon l'initialiser
+if not pygame.font.get_init():
+    pygame.font.init()
+
 font = pygame.font.Font(None, 40)
+
 
 class Button:
     def __init__(self, text, x, y, width, height, bg_color, text_color, action=None):
