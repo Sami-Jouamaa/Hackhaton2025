@@ -11,7 +11,6 @@ RED = (255, 0, 0)
 
 
 class CloseButton(Button):
-
     def draw(self, surface):
         pygame.draw.rect(surface, self.bg_color, self.rect)
         text_surface = FONT.render(self.text, True, self.text_color)

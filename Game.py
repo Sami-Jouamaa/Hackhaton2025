@@ -21,14 +21,12 @@ DARK_GRAY = (50, 50, 50)
 RED = (255, 0, 0)
 planet_button_hidden = True
 
-
-# Doesn't actually put the text on the screen but gets it from the ListPlanets.py file where all the planets and their info are
 def showPlanetInfo():
     i = 0
     for elements in planetList[str(index)]:
         text = str(elements)
         text_surface = game_font.render(text, False, (255, 255, 255))
-        screen.blit(text_surface, (960,540))
+        screen.blit(text_surface, (960, 540))
         i += 1
 
 def quit_game():
@@ -38,18 +36,20 @@ def quit_game():
 def nothing():
     pass
 
-
+# Définition unique de open_company_menu (avec background_draw_func)
 def open_company_menu():
     menu = CompanyMenu(company_data)
-    menu.run(screen)
+    menu.run(screen, background_draw_func=lambda: renderer.draw(solarSystem))
 
-
+# Créez le bouton "Quitter"
 quit_button = Button("Quitter", 1520, 125, 200, 60, RED, BLACK, quit_game)
-company_button = Button("Compagnie", 200, 900, 200, 60, WHITE, BLACK, nothing)
+# IMPORTANT : Attribuez open_company_menu au bouton "Compagnie"
+company_button = Button("Compagnie", 200, 900, 200, 60, WHITE, BLACK, open_company_menu)
 planet_button = Button("Planete", 1520, 900, 200, 60, WHITE, BLACK, showPlanetInfo)
+
 company_data = {
     "profit": 100000,
-    "employes" : 10,
+    "employes": 10,
     "contrats": ["Contrat d'extraction", "Contrat de minage", "Contrat d'expedition"],
     "trade_routes": ["Terre -> Cholria", "Cryogenia -> Infernus"],
     "technologies": ["Propulseur nucleaire", "Voile spatiale"],
@@ -65,13 +65,8 @@ def draw_overlay():
     screen.blit(overlay, (0, 0))
     quit_button.draw(screen)
     company_button.draw(screen)
-    if planet_button_hidden == False:
+    if not planet_button_hidden:
         planet_button.draw(screen)
-
-def open_company_menu():
-    menu = CompanyMenu(company_data)
-    menu.run(screen, background_draw_func=lambda: renderer.draw(solarSystem))
-
 
 while running:
     for event in pygame.event.get():
@@ -81,14 +76,13 @@ while running:
         company_button.is_clicked(event)
         planet_button.is_clicked(event)
 
-    if pygame.mouse.get_pressed()[0]: 
-        mouseX = pygame.mouse.get_pos()[0]
-        mouseY = pygame.mouse.get_pos()[1]
+    if pygame.mouse.get_pressed()[0]:
+        mouseX, mouseY = pygame.mouse.get_pos()
         global index
         index = 0
         for planets in solarSystem.planets:
-            distX = (mouseX - planets.pos[0])**2
-            distY = (mouseY - planets.pos[1])**2
+            distX = (mouseX - planets.pos[0]) ** 2
+            distY = (mouseY - planets.pos[1]) ** 2
             if math.sqrt(distX + distY) < 100:
                 planet_button_hidden = False
                 break
@@ -101,7 +95,6 @@ while running:
     renderer.draw(solarSystem)
     draw_overlay()
     pygame.display.flip()
-
     dt = clock.tick(60) / 1000
 
 pygame.quit()
