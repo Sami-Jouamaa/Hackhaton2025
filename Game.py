@@ -33,8 +33,7 @@ company_button = Button("Compagnie", 200, 900, 200, 60, WHITE, BLACK, nothing)
 
 def draw_overlay():
     overlay = pygame.Surface((1920, 1080))
-    overlay.set_alpha(180)
-    overlay.fill(DARK_GRAY)
+    overlay.set_alpha(0)
     screen.blit(overlay, (0, 0))
     quit_button.draw(screen)
     company_button.draw(screen)
