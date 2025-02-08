@@ -67,7 +67,7 @@ class SolarSystem:
         orbit_speed = 0.32/(0 + 1)
         planet = Planet(f"Infernis", p_type, orbit_r, orbit_speed)
         planet.radius = 19
-        planet.color = "Infernis.png"
+        planet.color = "./planet-pic/Infernis.png"
         self.planets.append(planet)
         
         #Planet 3
@@ -76,7 +76,7 @@ class SolarSystem:
         orbit_speed = 0.32/(1 + 1)
         planet = Planet(f"Terre", p_type, orbit_r, orbit_speed)
         planet.radius = 15
-        planet.color = "Terre.png"
+        planet.color = "./planet-pic/Terre.png"
         self.planets.append(planet)
         
         #Planet 4
@@ -85,7 +85,7 @@ class SolarSystem:
         orbit_speed = 0.32/(2 + 1)
         planet = Planet(f"Terralis Prime", p_type, orbit_r, orbit_speed)
         planet.radius = 19
-        planet.color = "Terralis_Prime.png"
+        planet.color = "./planet-pic/Terralis_Prime.png"
         self.planets.append(planet)
 
         #Planet 2
@@ -94,7 +94,7 @@ class SolarSystem:
         orbit_speed = 0.32/(3 + 1)
         planet = Planet(f"Nekronia", p_type, orbit_r, orbit_speed)
         planet.radius = 15
-        planet.color = "Nekronia.png"
+        planet.color = "./planet-pic/Nekronia.png"
         self.planets.append(planet)
         
         # Planet 1
@@ -103,7 +103,7 @@ class SolarSystem:
         orbit_speed = 0.32/(4 + 1)
         planet = Planet(f"Chloria", p_type, orbit_r, orbit_speed)
         planet.radius = 15
-        planet.color = "Chloria.png"
+        planet.color = "./planet-pic/Chloria.png"
         self.planets.append(planet)
         
         #Planet 6
@@ -112,7 +112,7 @@ class SolarSystem:
         orbit_speed = 0.32/(5 + 1)
         planet = Planet(f"Atlantis", p_type, orbit_r, orbit_speed)
         planet.radius = 22
-        planet.color = "Atlantis.png"
+        planet.color = "./planet-pic/Atlantis.png"
         self.planets.append(planet)
         
         #Planet 5
@@ -121,7 +121,7 @@ class SolarSystem:
         orbit_speed = 0.32/7
         planet = Planet(f"Xenon Prime", p_type, orbit_r, orbit_speed)
         planet.radius = 30
-        planet.color = "Xenon_Prime.png"
+        planet.color = "./planet-pic/Xenon_Prime.png"
         self.planets.append(planet)
         
         #Planet 8
@@ -130,7 +130,7 @@ class SolarSystem:
         orbit_speed = 0.32/8
         planet = Planet(f"Cryogenia", p_type, orbit_r, orbit_speed)
         planet.radius = 13
-        planet.color = "Cryogenia.png"
+        planet.color = "./planet-pic/Cryogenia.png"
         self.planets.append(planet)
 
     def update(self, dt):
@@ -166,7 +166,7 @@ class PlanetRenderer:
 
     def draw(self, solar_system):
         # Dessiner l'étoile
-        image = pygame.image.load("sunTexture.jpg")
+        image = pygame.image.load("./planet-pic/sunTexture.jpg")
         star_surface = pygame.Surface((solar_system.star_radius * 2, solar_system.star_radius*2), pygame.SRCALPHA)
         scaled_image = pygame.transform.scale(image, (solar_system.star_radius*2, solar_system.star_radius*2))
         star_surface.blit(scaled_image, (0,0))
