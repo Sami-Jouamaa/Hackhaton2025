@@ -1,6 +1,5 @@
 import pygame
 
-# Vérifier si le module font est initialisé, sinon l'initialiser
 if not pygame.font.get_init():
     pygame.font.init()
 

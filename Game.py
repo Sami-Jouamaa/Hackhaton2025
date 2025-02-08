@@ -41,8 +41,6 @@ company_data = {
     }
 }
 
-
-
 def draw_overlay():
     overlay = pygame.Surface((1920, 1080))
     overlay.set_alpha(0)
@@ -52,7 +50,8 @@ def draw_overlay():
 
 def open_company_menu():
     menu = CompanyMenu(company_data)
-    menu.run(screen)
+    menu.run(screen, background_draw_func=lambda: renderer.draw(solarSystem))
+
 
 while running:
     for event in pygame.event.get():
