@@ -1,16 +1,10 @@
 import pygame
-<<<<<<< Updated upstream
 from Planet import PlanetRenderer, SolarSystem, COLORS, PlanetManager
 from Button import Button
 from Company import CompanyMenu
-
-=======
-import math
-from Planet import PlanetRenderer, SolarSystem, COLORS,PlanetManager
 from ListPlanets import planetList
+import math
 
-# pygame setup
->>>>>>> Stashed changes
 pygame.init()
 pygame.font.init()
 game_font = pygame.font.SysFont('Comic Sans MS', 24)
@@ -41,6 +35,9 @@ def quit_game():
     global running
     running = False
 
+def nothing():
+    pass
+
 
 def open_company_menu():
     menu = CompanyMenu(company_data)
@@ -48,8 +45,8 @@ def open_company_menu():
 
 
 quit_button = Button("Quitter", 1520, 125, 200, 60, RED, BLACK, quit_game)
-<<<<<<< Updated upstream
-company_button = Button("Compagnie", 200, 900, 200, 60, WHITE, BLACK, open_company_menu)
+company_button = Button("Compagnie", 200, 900, 200, 60, WHITE, BLACK, nothing)
+planet_button = Button("Planete", 1520, 900, 200, 60, WHITE, BLACK, showPlanetInfo)
 company_data = {
     "profit": 100000,
     "employes" : 10,
@@ -62,12 +59,6 @@ company_data = {
     }
 }
 
-
-=======
-company_button = Button("Compagnie", 200, 900, 200, 60, WHITE, BLACK, nothing)
-planet_button = Button("Planete", 1520, 900, 200, 60, WHITE, BLACK, showPlanetInfo)
->>>>>>> Stashed changes
-
 def draw_overlay():
     overlay = pygame.Surface((1920, 1080))
     overlay.set_alpha(0)
@@ -77,13 +68,10 @@ def draw_overlay():
     if planet_button_hidden == False:
         planet_button.draw(screen)
 
-<<<<<<< Updated upstream
 def open_company_menu():
     menu = CompanyMenu(company_data)
     menu.run(screen)
 
-=======
->>>>>>> Stashed changes
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -92,8 +80,6 @@ while running:
         company_button.is_clicked(event)
         planet_button.is_clicked(event)
 
-<<<<<<< Updated upstream
-=======
     if pygame.mouse.get_pressed()[0]: 
         mouseX = pygame.mouse.get_pos()[0]
         mouseY = pygame.mouse.get_pos()[1]
@@ -109,16 +95,12 @@ while running:
                 planet_button_hidden = True
             index += 1
 
->>>>>>> Stashed changes
     solarSystem.update(dt)
     screen.fill(COLORS["background"])
     renderer.draw(solarSystem)
     draw_overlay()
     pygame.display.flip()
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
     dt = clock.tick(60) / 1000
 
 pygame.quit()
