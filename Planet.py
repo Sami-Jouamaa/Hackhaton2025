@@ -62,67 +62,75 @@ class SolarSystem:
         self.star_radius = 32
                 
         #Planet  6
-        p_type = "dead"
+        p_type = "morte"
         orbit_r = 75 + 0 * 50
         orbit_speed = 0.32/(0 + 1)
-        planet = Planet(f"Planet {5+1}", p_type, orbit_r, orbit_speed)
-        planet.color = "planet06.png"
+        planet = Planet(f"Chloria", p_type, orbit_r, orbit_speed)
+        planet.radius = 19
+        planet.color = "Chloria.png"
         self.planets.append(planet)
         
         #Planet 3
-        p_type = "dead"
+        p_type = "vie"
         orbit_r = 75 + 1 * 50
         orbit_speed = 0.32/(1 + 1)
-        planet = Planet(f"Planet {2+1}", p_type, orbit_r, orbit_speed)
-        planet.color = "planet03.png"
+        planet = Planet(f"Terre", p_type, orbit_r, orbit_speed)
+        planet.radius = 15
+        planet.color = "Terre.png"
         self.planets.append(planet)
         
         #Planet 4
-        p_type = "dead"
+        p_type = "vie"
         orbit_r = 75 + 2 * 50
         orbit_speed = 0.32/(2 + 1)
-        planet = Planet(f"Planet {3+1}", p_type, orbit_r, orbit_speed)
-        planet.color = "planet04.png"
+        planet = Planet(f"Terralis Prime", p_type, orbit_r, orbit_speed)
+        planet.radius = 19
+        planet.color = "Terralis_Prime.png"
         self.planets.append(planet)
-        
+
         #Planet 2
-        p_type = "dead"
+        p_type = "morte"
         orbit_r = 75 + 3 * 50
         orbit_speed = 0.32/(3 + 1)
-        planet = Planet(f"Planet {1+1}", p_type, orbit_r, orbit_speed)
-        planet.color = "planet02.png"
+        planet = Planet(f"Nekronia", p_type, orbit_r, orbit_speed)
+        planet.radius = 15
+        planet.color = "Nekronia.png"
         self.planets.append(planet)
         
         # Planet 1
-        p_type = "dead"
+        p_type = "morte"
         orbit_r = 75 + 4 * 50
         orbit_speed = 0.32/(4 + 1)
-        planet = Planet(f"Planet {0+1}", p_type, orbit_r, orbit_speed)
-        planet.color = "planet01.png"
+        planet = Planet(f"Infernis", p_type, orbit_r, orbit_speed)
+        planet.radius = 15
+        planet.color = "Infernis.png"
         self.planets.append(planet)
         
         #Planet 8
-        p_type = "life"
+        p_type = "gas"
         orbit_r = 75 + 5 * 50
         orbit_speed = 0.32/(5 + 1)
-        planet = Planet(f"Planet {7+1}", p_type, orbit_r, orbit_speed)
-        planet.color = "planet08.png"
+        planet = Planet(f"Xenon Prime", p_type, orbit_r, orbit_speed)
+        planet.radius = 30
+        planet.color = "Xenon_Prime.png"
         self.planets.append(planet)
         
         #Planet 5
-        p_type = "life"
+        p_type = "vie"
         orbit_r = 75 + 6 * 50
         orbit_speed = 0.32/(6 + 1)
-        planet = Planet(f"Planet {4+1}", p_type, orbit_r, orbit_speed)
-        planet.color = "planet05.png"
+        planet = Planet(f"Atlantis", p_type, orbit_r, orbit_speed)
+        planet.radius = 20
+        planet.color = "Atlantis.png"
         self.planets.append(planet)
         
         #Planet 7
-        p_type = "gas"
+        p_type = "vie"
         orbit_r = 75 + 7 * 50
         orbit_speed = 0.32/(7 + 1)
-        planet = Planet(f"Planet {6+1}", p_type, orbit_r, orbit_speed)
-        planet.color = "planet07.png"
+        planet = Planet(f"Cryogenia", p_type, orbit_r, orbit_speed)
+        planet.radius = 16
+        planet.color = "Cryogenia.png"
         self.planets.append(planet)
 
     def update(self, dt):
