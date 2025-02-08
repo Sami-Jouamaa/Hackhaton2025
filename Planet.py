@@ -107,7 +107,7 @@ class SolarSystem:
         self.planets.append(planet)
         
         #Planet 6
-        p_type = "gas"
+        p_type = "vie"
         orbit_r = 75 + 5 * 50
         orbit_speed = 0.32/(5 + 1)
         planet = Planet(f"Atlantis", p_type, orbit_r, orbit_speed)
@@ -116,9 +116,9 @@ class SolarSystem:
         self.planets.append(planet)
         
         #Planet 5
-        p_type = "vie"
+        p_type = "gas"
         orbit_r = 75 + 6 * 50
-        orbit_speed = 0.32/(6 + 1)
+        orbit_speed = 0.32/7
         planet = Planet(f"Xenon Prime", p_type, orbit_r, orbit_speed)
         planet.radius = 30
         planet.color = "Xenon_Prime.png"
@@ -127,7 +127,7 @@ class SolarSystem:
         #Planet 8
         p_type = "vie"
         orbit_r = 75 + 7 * 50
-        orbit_speed = 0.32/(8)
+        orbit_speed = 0.32/8
         planet = Planet(f"Cryogenia", p_type, orbit_r, orbit_speed)
         planet.radius = 13
         planet.color = "Cryogenia.png"
