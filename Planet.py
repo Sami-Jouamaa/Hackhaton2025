@@ -65,9 +65,9 @@ class SolarSystem:
         p_type = "morte"
         orbit_r = 75 + 0 * 50
         orbit_speed = 0.32/(0 + 1)
-        planet = Planet(f"Chloria", p_type, orbit_r, orbit_speed)
+        planet = Planet(f"Infernis", p_type, orbit_r, orbit_speed)
         planet.radius = 19
-        planet.color = "Chloria.png"
+        planet.color = "Infernis.png"
         self.planets.append(planet)
         
         #Planet 3
@@ -101,35 +101,35 @@ class SolarSystem:
         p_type = "morte"
         orbit_r = 75 + 4 * 50
         orbit_speed = 0.32/(4 + 1)
-        planet = Planet(f"Infernis", p_type, orbit_r, orbit_speed)
+        planet = Planet(f"Chloria", p_type, orbit_r, orbit_speed)
         planet.radius = 15
-        planet.color = "Infernis.png"
+        planet.color = "Chloria.png"
         self.planets.append(planet)
         
-        #Planet 8
+        #Planet 6
         p_type = "gas"
         orbit_r = 75 + 5 * 50
         orbit_speed = 0.32/(5 + 1)
-        planet = Planet(f"Xenon Prime", p_type, orbit_r, orbit_speed)
-        planet.radius = 30
-        planet.color = "Xenon_Prime.png"
+        planet = Planet(f"Atlantis", p_type, orbit_r, orbit_speed)
+        planet.radius = 22
+        planet.color = "Atlantis.png"
         self.planets.append(planet)
         
         #Planet 5
         p_type = "vie"
         orbit_r = 75 + 6 * 50
         orbit_speed = 0.32/(6 + 1)
-        planet = Planet(f"Atlantis", p_type, orbit_r, orbit_speed)
-        planet.radius = 20
-        planet.color = "Atlantis.png"
+        planet = Planet(f"Xenon Prime", p_type, orbit_r, orbit_speed)
+        planet.radius = 30
+        planet.color = "Xenon_Prime.png"
         self.planets.append(planet)
         
-        #Planet 7
+        #Planet 8
         p_type = "vie"
         orbit_r = 75 + 7 * 50
-        orbit_speed = 0.32/(7 + 1)
+        orbit_speed = 0.32/(8)
         planet = Planet(f"Cryogenia", p_type, orbit_r, orbit_speed)
-        planet.radius = 16
+        planet.radius = 13
         planet.color = "Cryogenia.png"
         self.planets.append(planet)
 
