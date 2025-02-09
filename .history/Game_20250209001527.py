@@ -24,9 +24,6 @@ RED = (255, 0, 0)
 planet_button_hidden = True
 
 
-RESOURCE_EXTRACTION_EVENT = pygame.USEREVENT + 1  
-pygame.time.set_timer(RESOURCE_EXTRACTION_EVENT, 5000)  # 5000ms = 5s
-
 def showPlanetInfo():
     i = 0
     for elements in planetList[str(index)]:
@@ -63,37 +60,26 @@ def draw_overlay():
     if not planet_button_hidden:
         planet_button.draw(screen)
 
-def extract_resources_periodically(solar_system):
-    """ Runs every 5 seconds: Loops through planets, adding resources based on extractors. """
-    for planet in solar_system.planets:
-        if "extractor" in planet.buildings:
-            for resource, num_extractors in planet.buildings["extractor"].items():
-                if num_extractors > 0:
-                    planet.resources[resource] = planet.resources.get(resource, 0) + num_extractors
-                    print(f"✅ Added {num_extractors} {resource} to {planet.name}. New total: {planet.resources[resource]}")
-
 
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
-        # 🛠 Handle the custom event for resource extraction
-        if event.type == RESOURCE_EXTRACTION_EVENT:
-            extract_resources_periodically(solarSystem)
-
         quit_button.is_clicked(event)
         company_button.is_clicked(event)
         planet_button.is_clicked(event)
 
-    # Handle button hover to change cursor
+    # Détection du hover sur les boutons
     hovered = (quit_button.is_hovered() or
                company_button.is_hovered() or
                (not planet_button_hidden and planet_button.is_hovered()))
 
-    pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND if hovered else pygame.SYSTEM_CURSOR_ARROW)
+    # Change le curseur en main si la souris survole un bouton
+    if hovered:
+        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+    else:
+        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
 
-    # Handle planet selection
     if pygame.mouse.get_pressed()[0]:
         mouseX, mouseY = pygame.mouse.get_pos()
         global index
@@ -108,15 +94,11 @@ while running:
                 planet_button_hidden = True
             index += 1
 
-    # Update solar system
     solarSystem.update(dt)
-
-    # Redraw everything
     screen.fill(COLORS["background"])
     renderer.draw(solarSystem)
     draw_overlay()
     pygame.display.flip()
-    
     dt = clock.tick(60) / 1000
 
 pygame.quit()
