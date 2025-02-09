@@ -1,7 +1,8 @@
 import pygame
 from Button import Button
+from Planet import PlanetManager  # Assurez-vous que PlanetManager est importé
 
-
+# Initialisation des polices et définitions de couleurs
 FONT = pygame.font.Font(None, 32)
 TITLE_FONT = pygame.font.Font(None, 40)
 WHITE = (255, 255, 255)
@@ -10,11 +11,11 @@ BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 NAV_ACTIVE = (135, 206, 250)  # bleu ciel
 NAV_INACTIVE = LIGHT_GRAY
+
 export_buttons = []
 
 def wrap_text(text, font, max_width):
     lines = []
-
     paragraphs = text.split("\n")
     for paragraph in paragraphs:
         words = paragraph.split(" ")
@@ -57,13 +58,18 @@ class PlanetInfo:
         y_content = 32
         for target_planet in solar_system.planets:
             if target_planet != planet:  # Exclude the current planet
-                btn = Button(target_planet.name, modal_x + left_width + 20, y_content + image_height,
-                             right_width - 40, 40, NAV_ACTIVE, BLACK,
-                             action=lambda p1=target_planet, p2=planet: self.export_prompt(p1,
-                                                                                           p2))  # Placeholder action
+                btn = Button(
+                    target_planet.name,
+                    modal_x + left_width + 20,
+                    y_content + image_height,
+                    right_width - 40,
+                    40,
+                    NAV_ACTIVE,
+                    BLACK,
+                    action=lambda p1=target_planet, p2=planet: self.export_prompt(p1, p2)
+                )
                 export_buttons.append(btn)
                 y_content += 50
-
 
     def extract_resources_periodically(self, solar_system):
         for planet in solar_system.planets:
@@ -71,11 +77,9 @@ class PlanetInfo:
                 for resource, num_extractors in planet.buildings["extractor"].items():
                     if num_extractors > 0:
                         planet.inventory[resource] = planet.inventory.get(resource, 0) + num_extractors
-                        print(
-                            f"Added {num_extractors} {resource} to {planet.name}. New total: {planet.inventory[resource]}")
+                        print(f"Added {num_extractors} {resource} to {planet.name}. New total: {planet.inventory[resource]}")
 
     def run(self, screen, planet, solar_system, background_draw_func=None):
-
         clock = pygame.time.Clock()
         screen_width, screen_height = screen.get_width(), screen.get_height()
         RESOURCE_EXTRACTION_EVENT = pygame.USEREVENT + 1
@@ -85,24 +89,26 @@ class PlanetInfo:
         modal_x = (screen_width - modal_width) // 2
         modal_y = (screen_height - modal_height) // 2
 
-
         left_width = int(modal_width * 0.30)
         right_width = modal_width - left_width
 
         image_height = int(modal_height * 0.50)
         content_height = modal_height - image_height
 
-        self.setup_export_btns(solar_system, planet, modal_x,
-        left_width, right_width, image_height)
+        self.setup_export_btns(solar_system, planet, modal_x, left_width, right_width, image_height)
 
         close_button_size = 40
         margin = 10
-        close_button = CloseButton("X",
-                                     modal_x + modal_width - close_button_size - margin,
-                                     modal_y + margin,
-                                     close_button_size, close_button_size,
-                                     RED, WHITE,
-                                     action=self.close)
+        close_button = CloseButton(
+            "X",
+            modal_x + modal_width - close_button_size - margin,
+            modal_y + margin,
+            close_button_size,
+            close_button_size,
+            RED,
+            WHITE,
+            action=self.close
+        )
 
         data = self.planet_data
         if len(data) >= 8:
@@ -122,15 +128,16 @@ class PlanetInfo:
         if len(data) >= 9 and isinstance(data[8], dict):
             extra = data[8]
 
-        nav_options = [("Description", "description"),
-                       ("Contrats", "contrats"),
-                       ("Colonie", "colonie"),
-                       ("Inventaire", "inventaire"),
-                       ("Export", "export"),]
+        nav_options = [
+            ("Description", "description"),
+            ("Contrats", "contrats"),
+            ("Colonie", "colonie"),
+            ("Inventaire", "inventaire"),
+            ("Export", "export"),
+        ]
         if type_info.lower() == "vie":
             nav_options.insert(1, ("Lois/Taxes", "lois"))
             nav_options.append(("Marché", "marche"))
-
 
         view_contents = {}
         view_contents["description"] = detailed_desc
@@ -163,10 +170,16 @@ class PlanetInfo:
         nav_button_height = 40
         nav_button_spacing = 5
         for (label, view_key) in nav_options:
-            btn = Button(label, modal_x + left_margin, y_nav, left_width - 2 * left_margin, nav_button_height,
-                         NAV_ACTIVE if self.current_view == view_key else NAV_INACTIVE,
-                         BLACK,
-                         action=lambda vk=view_key: self.set_view(vk))
+            btn = Button(
+                label,
+                modal_x + left_margin,
+                y_nav,
+                left_width - 2 * left_margin,
+                nav_button_height,
+                NAV_ACTIVE if self.current_view == view_key else NAV_INACTIVE,
+                BLACK,
+                action=lambda vk=view_key: self.set_view(vk)
+            )
             nav_buttons.append(btn)
             y_nav += nav_button_height + nav_button_spacing
 
@@ -176,7 +189,6 @@ class PlanetInfo:
             for event in pygame.event.get():
                 if event.type == RESOURCE_EXTRACTION_EVENT:
                     self.extract_resources_periodically(solar_system)
-
             if background_draw_func:
                 background_draw_func()
 
@@ -192,11 +204,13 @@ class PlanetInfo:
                 for btn in export_buttons:
                     btn.is_clicked(event)
 
+            # Dessin du panneau principal
             modal_rect = pygame.Rect(modal_x, modal_y, modal_width, modal_height)
             pygame.draw.rect(screen, WHITE, modal_rect)
             pygame.draw.rect(screen, BLACK, modal_rect, 2)
             close_button.draw(screen)
 
+            # Zone de gauche (infos)
             left_rect = pygame.Rect(modal_x, modal_y, left_width, modal_height)
             pygame.draw.rect(screen, LIGHT_GRAY, left_rect)
             y_draw = modal_y + 10
@@ -209,44 +223,80 @@ class PlanetInfo:
                 screen.blit(line_surface, (modal_x + left_margin, y_draw))
                 y_draw += line_surface.get_height() + 5
             for btn in nav_buttons:
-                btn.bg_color = NAV_ACTIVE if btn.text.lower() in self.current_view.lower() or (btn.text.lower() == "description" and self.current_view=="description") else NAV_INACTIVE
+                btn.bg_color = NAV_ACTIVE if (btn.text.lower() in self.current_view.lower() or
+                                               (btn.text.lower() == "description" and self.current_view=="description")) else NAV_INACTIVE
                 btn.draw(screen)
 
-            image_rect = pygame.Rect(modal_x + left_width, modal_y, right_width, image_height)
-            pygame.draw.rect(screen, BLACK, image_rect, 2)
-            content_rect = pygame.Rect(modal_x + left_width, modal_y + image_height, right_width, content_height)
-            pygame.draw.rect(screen, BLACK, content_rect, 2)
-
-            # Charger et afficher l'image
-            image = None
-            if image_path:
-                try:
-                    image = pygame.image.load(image_path)
-                except Exception as e:
-                    image = None
-            if image:
-                image = pygame.transform.scale(image, (right_width, image_height))
-                screen.blit(image, image_rect.topleft)
+            # Zone droite
+            # Si la vue active est "colonie" ou "export", on efface la zone droite (on la remplit en blanc)
+            if self.current_view in ["colonie", "export"]:
+                image_rect = pygame.Rect(modal_x + left_width, modal_y, right_width, image_height)
+                pygame.draw.rect(screen, WHITE, image_rect)
+                content_rect = pygame.Rect(modal_x + left_width, modal_y + image_height, right_width, content_height)
+                pygame.draw.rect(screen, WHITE, content_rect)
             else:
-                pygame.draw.rect(screen, LIGHT_GRAY, image_rect)
-                placeholder = FONT.render("No Image", True, BLACK)
-                placeholder_rect = placeholder.get_rect(center=image_rect.center)
-                screen.blit(placeholder, placeholder_rect)
+                # Zone d'image et contenu (affichage normal)
+                image_rect = pygame.Rect(modal_x + left_width, modal_y, right_width, image_height)
+                pygame.draw.rect(screen, BLACK, image_rect, 2)
+                content_rect = pygame.Rect(modal_x + left_width, modal_y + image_height, right_width, content_height)
+                pygame.draw.rect(screen, BLACK, content_rect, 2)
 
-            content_text = view_contents.get(self.current_view, "")
-            content_surface = pygame.Surface((right_width, content_height))
-            content_surface.fill(WHITE)
-            wrapped_content = wrap_text(view_contents.get(self.current_view, ""), FONT, right_width - 20)
-            y_content = 10
-            for line in wrapped_content:
-                line_surface = FONT.render(line, True, BLACK)
-                content_surface.blit(line_surface, (10, y_content))
-                y_content += line_surface.get_height() + 5
+                # Charger et afficher l'image
+                image = None
+                if image_path:
+                    try:
+                        image = pygame.image.load(image_path)
+                    except Exception as e:
+                        image = None
+                if image:
+                    image = pygame.transform.scale(image, (right_width, image_height))
+                    screen.blit(image, image_rect.topleft)
+                else:
+                    pygame.draw.rect(screen, LIGHT_GRAY, image_rect)
+                    placeholder = FONT.render("No Image", True, BLACK)
+                    placeholder_rect = placeholder.get_rect(center=image_rect.center)
+                    screen.blit(placeholder, placeholder_rect)
 
+                # Affichage du contenu
+                content_text = view_contents.get(self.current_view, "")
+                content_surface = pygame.Surface((right_width, content_height))
+                content_surface.fill(WHITE)
+                wrapped_content = wrap_text(content_text, FONT, right_width - 20)
+                y_content = 10
+                for line in wrapped_content:
+                    line_surface = FONT.render(line, True, BLACK)
+                    content_surface.blit(line_surface, (10, y_content))
+                    y_content += line_surface.get_height() + 5
+                screen.blit(content_surface, (modal_x + left_width, modal_y + image_height))
 
-            screen.blit(content_surface, (modal_x + left_width, modal_y + image_height))
+            # Affichage des boutons spécifiques aux vues "export" et "colonie"
             if self.current_view == "export":
                 for btn in export_buttons:
                     btn.draw(screen)
+            if self.current_view == "colonie":
+                building_names = ["research", "decarbonizer", "fabricator", "extractor", "habitat", "defense"]
+                num_buttons = len(building_names)
+                button_height = 40
+                button_spacing = 10
+                total_height = num_buttons * button_height + (num_buttons - 1) * button_spacing
+                # Calcul de la nouvelle largeur : 35 % de l'espace disponible (après une marge de 20 pixels)
+                new_button_width = (right_width - 20) * 0.35
+                # Position horizontale : sur le côté gauche de la zone droite
+                colonie_buttons_x = modal_x + left_width + 10
+                # Calcul de la position verticale de départ pour centrer les boutons dans la zone de contenu (située sous l'image)
+                colonie_buttons_y = modal_y + image_height + (content_height - total_height) / 2
+                for i, bname in enumerate(building_names):
+                    btn = Button(
+                        bname.capitalize(),
+                        colonie_buttons_x,
+                        colonie_buttons_y + i * (button_height + button_spacing),
+                        new_button_width,
+                        button_height,
+                        NAV_ACTIVE,
+                        BLACK,
+                        action=lambda b=bname: PlanetManager.build_structure(planet, b)
+                    )
+                    btn.draw(screen)
+
             pygame.display.flip()
             clock.tick(30)
