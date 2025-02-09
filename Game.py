@@ -43,7 +43,7 @@ def quit_game():
 
 def open_company_menu():
     menu = CompanyMenu(company)
-    menu.run(screen, background_draw_func=lambda: renderer.draw(solarSystem))
+    menu.run(screen, solarSystem, background_draw_func=lambda: renderer.draw(solarSystem))
 
 
 quit_button = Button("Quitter", 1520, 125, 200, 60, RED, BLACK, quit_game)

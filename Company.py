@@ -31,7 +31,7 @@ class CompanyMenu:
     def close(self):
         self.running = False
 
-    def run(self, screen, background_draw_func=None):
+    def run(self, screen, solarSystem, background_draw_func=None):
         clock = pygame.time.Clock()
         screen_width, screen_height = screen.get_width(), screen.get_height()
 
@@ -95,6 +95,17 @@ class CompanyMenu:
                                    close_button_size, close_button_size,
                                    RED, WHITE,
                                    action=self.close)
+        tech_buttons = []
+        for tech, tech_item in self.company_data.technologies.items():
+            button_color = (0, 255, 0) if tech_item.level < tech_item.max_level else (
+                169, 169, 169)
+            upgrade_button = Button(
+                "Upgrade",
+                content_x, content_y, 110, 35,
+                button_color, WHITE,
+                action=lambda t=tech_item: company.upgrade(t, solarSystem),
+            )
+            tech_buttons.append(upgrade_button)
 
         while self.running:
             if background_draw_func:
@@ -110,6 +121,8 @@ class CompanyMenu:
                 for button in sidebar_buttons:
                     button.is_clicked(event)
                 close_button.is_clicked(event)
+                for button in tech_buttons:
+                    button.is_clicked(event)
 
             panel_rect = pygame.Rect(panel_x, panel_y, panel_width, panel_height)
             pygame.draw.rect(screen, WHITE, panel_rect)
@@ -123,6 +136,7 @@ class CompanyMenu:
 
             for button in sidebar_buttons:
                 button.draw(screen)
+
 
             content_rect = pygame.Rect(content_x, content_y, content_width, content_height)
             pygame.draw.rect(screen, WHITE, content_rect)
@@ -173,8 +187,8 @@ class CompanyMenu:
                 equipement_title = FONT.render("Equipement:", True, (0, 0, 0))
                 content_surface.blit(equipement_title, (content_margin, text_y))
                 text_y += equipement_title.get_height() + 5
-                for tech in self.company_data.equipement:
-                    line = FONT.render(f"-", True, (0, 0, 0))
+                for eq in self.company_data.equipement:
+                    line = FONT.render(f"- {eq}", True, (0, 0, 0))
                     content_surface.blit(line, (content_margin + 20, text_y))
                     text_y += line.get_height() + 5
 
@@ -191,12 +205,21 @@ class CompanyMenu:
                 title = FONT.render("Technologies", True, (0, 0, 0))
                 content_surface.blit(title, (content_margin, text_y))
                 text_y += title.get_height() + 10
-                for tech in self.company_data.technologies:
-                    line = FONT.render(f"- {tech}", True, (0, 0, 0))
+                for tech, tech_item in self.company_data.technologies.items():
+                    line = FONT.render(f"- {tech}, niveau {tech_item.level}", True, (0, 0, 0))
+                    line2 = FONT.render(f"{'niveau max' if tech_item.level == tech_item.max_level else ', '.join(f'{resource}: {cost}' for resource, cost in tech_item.resources_till_level.items())}"
+                        f"{f' + {tech_item.money_till_level}' if tech_item.level < tech_item.max_level else ''}",
+                        True, (0, 0, 0))
                     content_surface.blit(line, (content_margin, text_y))
                     text_y += line.get_height() + 5
+                    content_surface.blit(line2, (content_margin, text_y))
+                    text_y += line2.get_height() + 5
+                    text_y += 40
 
             screen.blit(content_surface, (content_x, content_y))
+            if (self.selected_section == "technologies"):
+                for button in tech_buttons:
+                    button.draw(screen)
 
             close_button.draw(screen)
 
