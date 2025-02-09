@@ -49,7 +49,7 @@ class PlanetInfo:
     def set_view(self, view_key):
         self.current_view = view_key
 
-    def extract_resources_periodically(solar_system):
+    def extract_resources_periodically(self, solar_system):
         """ Runs every 5 seconds: Loops through planets, adding resources based on extractors. """
         for planet in solar_system.planets:
             if "extractor" in planet.buildings:
@@ -59,11 +59,10 @@ class PlanetInfo:
                         print(
                             f"✅ Added {num_extractors} {resource} to {planet.name}. New total: {planet.inventory[resource]}")
 
-    def run(self, screen, solar_system, planet, background_draw_func=None):
+    def run(self, screen, planet, solar_system, background_draw_func=None):
         clock = pygame.time.Clock()
         screen_width, screen_height = screen.get_width(), screen.get_height()
         RESOURCE_EXTRACTION_EVENT = pygame.USEREVENT + 1
-        pygame.time.set_timer(RESOURCE_EXTRACTION_EVENT, 5000)
 
         modal_width = 800
         modal_height = 600
@@ -150,8 +149,9 @@ class PlanetInfo:
             y_nav += nav_button_height + nav_button_spacing
 
         while self.running:
-            if event.type == RESOURCE_EXTRACTION_EVENT:
-                extract_resources_periodically(solarSystem)
+            for event in pygame.event.get():
+                if event.type == RESOURCE_EXTRACTION_EVENT:
+                    self.extract_resources_periodically(solar_system)
 
             if background_draw_func:
                 background_draw_func()
@@ -220,5 +220,3 @@ class PlanetInfo:
 
             pygame.display.flip()
             clock.tick(30)
-
-        pygame.time.set_timer(RESOURCE_EXTRACTION_EVENT, 0)
