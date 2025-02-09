@@ -9,11 +9,27 @@ class Company:
         self.trade_routes = []
         self.upgrading_tech = {}
 
-    def upgrade(self, tech, planet):
+    def upgrade(self, tech, solar_system):
         valid = True
+        research_planets = list(filter(lambda curr_planet: curr_planet.buildings['research'] != 0, solar_system.planets))
         for key, value in tech.resources_till_level.items():
+            num = 0
+            for planet in research_planets:
+                num += planet.inventory.get(key, 0)
+            if num < value:
+                valid = False
+        if valid:
+            tech.level_up()
+            for key, value in tech.resources_till_level.items():
+                num = value
+                for planet in research_planets:
+                    if num > planet.inventory[key]:
+                        planet.inventory[key] = 0
+                        num -= planet.inventory[key]
+                    else:
+                        planet.inventory[key] -= num
+                        break
 
-        tech.level_up()
 
 
 
