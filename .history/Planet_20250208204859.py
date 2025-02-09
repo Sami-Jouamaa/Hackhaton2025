@@ -20,8 +20,6 @@ class Planet:
         self.resources = {}
         self.pollution = {"CO2": 0, "radiation": 0, "waste": 0}
         self.pos = (0, 0)
-        self.sommaire = ""
-        self.description = {}
         
         # Définition des ressources par type
         if self.type == "life":
@@ -50,8 +48,6 @@ class Planet:
             }
             self.radius = 16
 
-    
-
     def update_orbit(self, center, dt):
         self.angle += self.orbit_speed * dt
         x = center[0] + math.cos(self.angle) * self.orbit_radius
@@ -72,10 +68,7 @@ class SolarSystem:
         planet = Planet(f"Infernis", p_type, orbit_r, orbit_speed)
         planet.radius = 19
         planet.color = "./planet-pic/Infernis.png"
-        planet.sommaire = "Enfer métallique. Tempêtes solaires mortelles."
-        planet.description = "Noyau de fer en fusion sous une croûte de lave vitrifiée."
         self.planets.append(planet)
-
         
         #Planet 3
         p_type = "vie"
@@ -84,8 +77,6 @@ class SolarSystem:
         planet = Planet(f"Terre", p_type, orbit_r, orbit_speed)
         planet.radius = 15
         planet.color = "./planet-pic/Terre.png"
-        planet.sommaire = "Planète-mère de l'humanité. Équilibre écologique strict."
-        planet.description = "Mégapoles sous dômes écologiques polués apres des centaines d'annees d'exploitation"
         self.planets.append(planet)
         
         #Planet 4
@@ -95,8 +86,6 @@ class SolarSystem:
         planet = Planet(f"Terralis Prime", p_type, orbit_r, orbit_speed)
         planet.radius = 19
         planet.color = "./planet-pic/Terralis_Prime.png"
-        planet.sommaire = "Symbiose parfaite entre Verdantari et écosystème."
-        planet.description = "Cités-arbres géantes alimentées par photosynthèse quantique."
         self.planets.append(planet)
 
         #Planet 2
@@ -106,8 +95,6 @@ class SolarSystem:
         planet = Planet(f"Nekronia", p_type, orbit_r, orbit_speed)
         planet.radius = 15
         planet.color = "./planet-pic/Nekronia.png"
-        planet.sommaire = "Désert radioactif post-guerre."
-        planet.description = "Champs de ruines irradiées peuplés de drones dégénérés."
         self.planets.append(planet)
         
         # Planet 1
@@ -117,8 +104,6 @@ class SolarSystem:
         planet = Planet(f"Chloria", p_type, orbit_r, orbit_speed)
         planet.radius = 15
         planet.color = "./planet-pic/Chloria.png"
-        planet.sommaire = "Monde toxique au chlore. Extraction risquée."
-        planet.description = "Atmosphère corrosive de chlure d'hydrogène. Paysages de cristaux ionisés."
         self.planets.append(planet)
         
         #Planet 6
@@ -128,8 +113,6 @@ class SolarSystem:
         planet = Planet(f"Atlantis", p_type, orbit_r, orbit_speed)
         planet.radius = 22
         planet.color = "./planet-pic/Atlantis.png"
-        planet.sommaire = "Civilisation sous-marine. Tech bio-luminescente."
-        planet.description = "Cités de corail intelligent peuplées d'humanoïdes amphibies, interessente pour la recherche biologique et pour recolter l'energie geothermique."
         self.planets.append(planet)
         
         #Planet 5
@@ -139,8 +122,6 @@ class SolarSystem:
         planet = Planet(f"Xenon Prime", p_type, orbit_r, orbit_speed)
         planet.radius = 30
         planet.color = "./planet-pic/Xenon_Prime.png"
-        planet.sommaire = "Géante de gaz nobles. Phénomènes énergétiques."
-        planet.description = "Nuages de xénon ionisé sous tempêtes électriques permanentes."
         self.planets.append(planet)
         
         #Planet 8
@@ -150,9 +131,6 @@ class SolarSystem:
         planet = Planet(f"Cryogenia", p_type, orbit_r, orbit_speed)
         planet.radius = 13
         planet.color = "./planet-pic/Cryogenia.png"
-        planet.sommaire = "Monde glacé. Civilisation insectoïde cavernicole."
-        planet.description = "Réseaux de cavernes géothermiques sous calotte glaciaire."
-
         self.planets.append(planet)
 
     def update(self, dt):
