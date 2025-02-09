@@ -49,6 +49,9 @@ class PlanetInfo:
     def set_view(self, view_key):
         self.current_view = view_key
 
+    def export_prompt(self, target):
+
+
     def extract_resources_periodically(self, solar_system):
         """ Runs every 5 seconds: Loops through planets, adding resources based on extractors. """
         for planet in solar_system.planets:
@@ -60,6 +63,7 @@ class PlanetInfo:
                             f"✅ Added {num_extractors} {resource} to {planet.name}. New total: {planet.inventory[resource]}")
 
     def run(self, screen, planet, solar_system, background_draw_func=None):
+        export_buttons = []
         clock = pygame.time.Clock()
         screen_width, screen_height = screen.get_width(), screen.get_height()
         RESOURCE_EXTRACTION_EVENT = pygame.USEREVENT + 1
@@ -105,7 +109,8 @@ class PlanetInfo:
         nav_options = [("Description", "description"),
                        ("Contrats", "contrats"),
                        ("Colonie", "colonie"),
-                       ("Inventaire", "inventaire")]
+                       ("Inventaire", "inventaire"),
+                       ("Export", "export"),]
         if type_info.lower() == "vie":
             nav_options.insert(1, ("Lois/Taxes", "lois"))
             nav_options.append(("Marché", "marche"))
@@ -122,6 +127,7 @@ class PlanetInfo:
         view_contents["inventaire"] = "\n".join(f"{key}: {value} tonnes galactiques" for key, value in planet.inventory.items())
         view_contents["lois"] = extra.get("lois", "Aucune loi disponible.")
         view_contents["marché"] = extra.get("marché", "Aucun marché disponible.")
+        view_contents["export"] = "Sélectionnez une planète pour exporter des ressources."
 
         nav_buttons = []
         left_margin = 10
@@ -164,6 +170,8 @@ class PlanetInfo:
                         self.running = False
                 close_button.is_clicked(event)
                 for btn in nav_buttons:
+                    btn.is_clicked(event)
+                for btn in export_buttons:
                     btn.is_clicked(event)
 
             modal_rect = pygame.Rect(modal_x, modal_y, modal_width, modal_height)
@@ -216,7 +224,19 @@ class PlanetInfo:
                 line_surface = FONT.render(line, True, BLACK)
                 content_surface.blit(line_surface, (10, y_content))
                 y_content += line_surface.get_height() + 5
-            screen.blit(content_surface, (modal_x + left_width, modal_y + image_height))
+            if self.current_view == "export":
+                for target_planet in solar_system.planets:
+                    if target_planet != planet:  # Exclude the current planet
+                        btn = Button(target_planet.name, modal_x + left_width + 20, y_content + image_height,
+                                     right_width - 40, 40, NAV_ACTIVE, BLACK,
+                                     action=lambda p=target_planet: print(
+                                         f"Selected {p.name} for export"))  # Placeholder action
+                        export_buttons.append(btn)
+                        y_content += 50
 
+            screen.blit(content_surface, (modal_x + left_width, modal_y + image_height))
+            if self.current_view == "export":
+                for btn in export_buttons:
+                    btn.draw(screen)
             pygame.display.flip()
             clock.tick(30)

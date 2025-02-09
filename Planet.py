@@ -70,33 +70,14 @@ class Planet:
         y = center[1] + math.sin(self.angle) * self.orbit_radius
         self.pos = (int(x), int(y))
 
-    def add_export(self, dest_planet, resource, amount):
+    def export(self, dest_planet, resource, amount, fuel_cost):
         """ Adds an export from this planet to another """
-        if dest_planet not in self.exports:
-            self.exports[dest_planet] = {}
-        self.exports[dest_planet][resource] = self.exports[dest_planet].get(resource, 0) + amount
-
-        if self.resources.get(resource, 0) >= amount:
+        if self.resources.get(resource, 0) >= amount and self.resources.get('Fossil_Fuel', 0) > fuel_cost:
             self.resources[resource] -= amount  # Deduct from stock
-
-    def remove_export(self, dest_planet, resource):
-        """ Removes an export entry """
-        if dest_planet in self.exports and resource in self.exports[dest_planet]:
-            del self.exports[dest_planet][resource]
-            if not self.exports[dest_planet]:  # Remove empty destinations
-                del self.exports[dest_planet]
-
-    def add_import(self, source_planet, resource, amount):
-        """ Registers an incoming import """
-        if source_planet not in self.imports:
-            self.imports[source_planet] = {}
-        self.imports[source_planet][resource] = self.imports[source_planet].get(resource, 0) + amount
-
-    def process_imports(self):
-        """ Transfers all imported resources to the planet's stock """
-        for source_planet, resources in self.imports.items():
-            for resource, amount in resources.items():
-                self.resources[resource] = self.resources.get(resource, 0) + amount
+            self.exports['Fossil_Fuel'] = fuel_cost
+            num_dst = dest_planet.inventroy[resource].get(resource, 0)
+            amount += num_dst
+            dest_planet[resource] = amount
 
 
 
