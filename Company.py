@@ -174,7 +174,7 @@ class CompanyMenu:
                 content_surface.blit(equipement_title, (content_margin, text_y))
                 text_y += equipement_title.get_height() + 5
                 for tech in self.company_data.equipement:
-                    line = FONT.render(f"- {eq}", True, (0, 0, 0))
+                    line = FONT.render(f"-", True, (0, 0, 0))
                     content_surface.blit(line, (content_margin + 20, text_y))
                     text_y += line.get_height() + 5
 

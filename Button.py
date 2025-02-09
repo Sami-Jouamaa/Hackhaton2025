@@ -5,7 +5,6 @@ if not pygame.font.get_init():
 
 font = pygame.font.Font(None, 40)
 
-
 class Button:
     def __init__(self, text, x, y, width, height, bg_color, text_color, action=None):
         self.text = text
@@ -25,3 +24,7 @@ class Button:
             if self.rect.collidepoint(event.pos):
                 if self.action:
                     self.action()
+
+    def is_hovered(self):
+        # Retourne True si la souris est au-dessus du bouton
+        return self.rect.collidepoint(pygame.mouse.get_pos())

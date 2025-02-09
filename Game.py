@@ -23,6 +23,7 @@ DARK_GRAY = (50, 50, 50)
 RED = (255, 0, 0)
 planet_button_hidden = True
 
+
 def showPlanetInfo():
     i = 0
     for elements in planetList[str(index)]:
@@ -34,21 +35,20 @@ def showPlanetInfo():
     ui = PlanetInfo(planet_info)
     ui.run(screen, background_draw_func=lambda: renderer.draw(solarSystem))
 
+
 def quit_game():
     global running
     running = False
 
-def nothing():
-    pass
 
 def open_company_menu():
     menu = CompanyMenu(company)
     menu.run(screen, background_draw_func=lambda: renderer.draw(solarSystem))
 
+
 quit_button = Button("Quitter", 1520, 125, 200, 60, RED, BLACK, quit_game)
 company_button = Button("Compagnie", 200, 900, 200, 60, WHITE, BLACK, open_company_menu)
 planet_button = Button("Planete", 1520, 900, 200, 60, WHITE, BLACK, showPlanetInfo)
-
 
 
 def draw_overlay():
@@ -60,6 +60,7 @@ def draw_overlay():
     if not planet_button_hidden:
         planet_button.draw(screen)
 
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -67,6 +68,17 @@ while running:
         quit_button.is_clicked(event)
         company_button.is_clicked(event)
         planet_button.is_clicked(event)
+
+    # Détection du hover sur les boutons
+    hovered = (quit_button.is_hovered() or
+               company_button.is_hovered() or
+               (not planet_button_hidden and planet_button.is_hovered()))
+
+    # Change le curseur en main si la souris survole un bouton
+    if hovered:
+        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+    else:
+        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
 
     if pygame.mouse.get_pressed()[0]:
         mouseX, mouseY = pygame.mouse.get_pos()

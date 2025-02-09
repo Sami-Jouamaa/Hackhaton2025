@@ -73,7 +73,7 @@ class SolarSystem:
         planet.radius = 19
         planet.color = "./planet-pic/Infernis.png"
         planet.sommaire = "Enfer métallique. Tempêtes solaires mortelles, totalement dépourvue de vie. Recouverte de lacs de lave et de dépôts minéraux. Une base humaine souterraine exploite ses ressources, notamment le fer et les cristaux, sous la protection d’un bouclier orbital."
-        planet.description = "un monde infernal où aucune forme de vie ne peut survivre. Son sol est ravagé par des éruptions volcaniques constantes, formant d’immenses rivières de lave qui sculptent un paysage chaotique et instable. L’atmosphère y est irrespirable, chargée de cendres et de gaz toxiques. Malgré ces conditions extrêmes, l’intérêt pour ses richesses minérales a conduit à l’installation d’une base souterraine, où des équipes minières extraient jusqu’à 10 tonnes de fer par jour. Un bouclier orbital protège ces infrastructures des violentes tempêtes solaires, permettant une exploitation limitée mais stratégique de cette planète inhospitalière."
+
         self.planets.append(planet)
 
         
@@ -116,7 +116,7 @@ class SolarSystem:
         orbit_speed = 0.32/(4 + 1)
         planet = Planet(f"Chloria", p_type, orbit_r, orbit_speed)
         planet.radius = 15
-        planet.color = "./planet-pic/Chloria.png
+        planet.color = "./planet-pic/Chloria.png"
         planet.sommaire = "Monde toxique au chlore. Extraction risquée."
         planet.description = "Atmosphère corrosive de chlure d'hydrogène. Paysages de cristaux ionisés."
         self.planets.append(planet)
