@@ -62,7 +62,18 @@ class Planet:
             }
             self.radius = 16
 
-    
+    def build(self, type, resource = None):
+        if type == 'extractor' and resource != None:
+            num_extractors = self.buildings['extractor'].get(resource, -1)
+            if  num_extractors >= 0 or num_extractors < 10:
+                self.buildings["extractor"][resource] += 1
+        elif type == 'research' and self.buildings['research'] < 1:
+            self.buildings['research'] += 1
+        elif type == 'decarbonizer' and self.buildings['decarbonizer'] < 5:
+            self.buildings['decarbonizer'] += 1
+        elif type == 'fabricator' and self.buildings['fabricator'] < 5:
+            self.buildings['fabricator'] += 1
+
 
     def update_orbit(self, center, dt):
         self.angle += self.orbit_speed * dt
