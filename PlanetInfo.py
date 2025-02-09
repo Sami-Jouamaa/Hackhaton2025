@@ -49,7 +49,7 @@ class PlanetInfo:
     def set_view(self, view_key):
         self.current_view = view_key
 
-    def export_prompt(self, target):
+    #def export_prompt(self, target):
 
 
     def extract_resources_periodically(self, solar_system):
