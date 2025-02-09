@@ -211,9 +211,9 @@ class CompanyMenu:
                         f"{f' + {tech_item.money_till_level}' if tech_item.level < tech_item.max_level else ''}",
                         True, (0, 0, 0))
                     content_surface.blit(line, (content_margin, text_y))
-                    text_y += line.get_height() + 5
+                    text_y += 27
                     content_surface.blit(line2, (content_margin, text_y))
-                    text_y += line2.get_height() + 5
+                    text_y += 27
                     text_y += 40
 
             screen.blit(content_surface, (content_x, content_y))

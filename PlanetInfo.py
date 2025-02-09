@@ -1,6 +1,7 @@
 import pygame
 from Button import Button
 
+
 FONT = pygame.font.Font(None, 32)
 TITLE_FONT = pygame.font.Font(None, 40)
 WHITE = (255, 255, 255)
@@ -48,9 +49,21 @@ class PlanetInfo:
     def set_view(self, view_key):
         self.current_view = view_key
 
-    def run(self, screen, background_draw_func=None):
+    def extract_resources_periodically(solar_system):
+        """ Runs every 5 seconds: Loops through planets, adding resources based on extractors. """
+        for planet in solar_system.planets:
+            if "extractor" in planet.buildings:
+                for resource, num_extractors in planet.buildings["extractor"].items():
+                    if num_extractors > 0:
+                        planet.inventory[resource] = planet.inventory.get(resource, 0) + num_extractors
+                        print(
+                            f"✅ Added {num_extractors} {resource} to {planet.name}. New total: {planet.inventory[resource]}")
+
+    def run(self, screen, solar_system, planet, background_draw_func=None):
         clock = pygame.time.Clock()
         screen_width, screen_height = screen.get_width(), screen.get_height()
+        RESOURCE_EXTRACTION_EVENT = pygame.USEREVENT + 1
+        pygame.time.set_timer(RESOURCE_EXTRACTION_EVENT, 5000)
 
         modal_width = 800
         modal_height = 600
@@ -107,7 +120,7 @@ class PlanetInfo:
             view_contents["colonie"] = "Colonies:\n" + "\n".join(colonies)
         else:
             view_contents["colonie"] = "Aucune colonie."
-        view_contents["inventaire"] = extra.get("inventaire", "Aucun inventaire disponible.")
+        view_contents["inventaire"] = "\n".join(f"{key}: {value} tonnes galactiques" for key, value in planet.inventory.items())
         view_contents["lois"] = extra.get("lois", "Aucune loi disponible.")
         view_contents["marché"] = extra.get("marché", "Aucun marché disponible.")
 
@@ -137,6 +150,9 @@ class PlanetInfo:
             y_nav += nav_button_height + nav_button_spacing
 
         while self.running:
+            if event.type == RESOURCE_EXTRACTION_EVENT:
+                extract_resources_periodically(solarSystem)
+
             if background_draw_func:
                 background_draw_func()
 
@@ -204,3 +220,5 @@ class PlanetInfo:
 
             pygame.display.flip()
             clock.tick(30)
+
+        pygame.time.set_timer(RESOURCE_EXTRACTION_EVENT, 0)

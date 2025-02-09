@@ -1,4 +1,5 @@
 import pygame
+import threading
 from Planet import PlanetRenderer, SolarSystem, COLORS, PlanetManager
 from Button import Button
 from Company import CompanyMenu
@@ -22,6 +23,7 @@ BLACK = (0, 0, 0)
 DARK_GRAY = (50, 50, 50)
 RED = (255, 0, 0)
 planet_button_hidden = True
+selected_planet = None
 
 
 RESOURCE_EXTRACTION_EVENT = pygame.USEREVENT + 1  
@@ -35,8 +37,9 @@ def showPlanetInfo():
         screen.blit(text_surface, (960, 540))
         i += 1
     planet_info = planetList[str(index)]
+    planet = solarSystem.planets[index]
     ui = PlanetInfo(planet_info)
-    ui.run(screen, background_draw_func=lambda: renderer.draw(solarSystem))
+    ui.run(screen, planet, solarSystem, background_draw_func=lambda: renderer.draw(solarSystem))
 
 
 def quit_game():
@@ -51,7 +54,7 @@ def open_company_menu():
 
 quit_button = Button("Quitter", 1520, 125, 200, 60, RED, BLACK, quit_game)
 company_button = Button("Compagnie", 200, 900, 200, 60, WHITE, BLACK, open_company_menu)
-planet_button = Button("Planete", 1520, 900, 200, 60, WHITE, BLACK, showPlanetInfo)
+planet_button = Button(f"{'Planete'}", 1520, 900, 200, 60, WHITE, BLACK, showPlanetInfo)
 
 
 def draw_overlay():
@@ -69,9 +72,8 @@ def extract_resources_periodically(solar_system):
         if "extractor" in planet.buildings:
             for resource, num_extractors in planet.buildings["extractor"].items():
                 if num_extractors > 0:
-                    planet.resources[resource] = planet.resources.get(resource, 0) + num_extractors
-                    print(f"✅ Added {num_extractors} {resource} to {planet.name}. New total: {planet.resources[resource]}")
-
+                    planet.inventory[resource] = planet.inventory.get(resource, 0) + num_extractors
+                    print(f"✅ Added {num_extractors} {resource} to {planet.name}. New total: {planet.inventory[resource]}")
 
 while running:
     for event in pygame.event.get():
@@ -101,11 +103,13 @@ while running:
         for planets in solarSystem.planets:
             distX = (mouseX - planets.pos[0]) ** 2
             distY = (mouseY - planets.pos[1]) ** 2
-            if math.sqrt(distX + distY) < 100:
+            if math.sqrt(distX + distY) < 100 or planet_button.rect.collidepoint(mouseX, mouseY):
+                selected_planet = planets
                 planet_button_hidden = False
                 break
             else:
                 planet_button_hidden = True
+                selected_planet = None
             index += 1
 
     # Update solar system
