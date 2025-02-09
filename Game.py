@@ -67,7 +67,6 @@ def draw_overlay():
         planet_button.draw(screen)
 
 def extract_resources_periodically(solar_system):
-    """ Runs every 5 seconds: Loops through planets, adding resources based on extractors. """
     for planet in solar_system.planets:
         if "extractor" in planet.buildings:
             for resource, num_extractors in planet.buildings["extractor"].items():
@@ -80,7 +79,6 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-        # 🛠 Handle the custom event for resource extraction
         if event.type == RESOURCE_EXTRACTION_EVENT:
             extract_resources_periodically(solarSystem)
 
@@ -112,10 +110,8 @@ while running:
                 selected_planet = None
             index += 1
 
-    # Update solar system
     solarSystem.update(dt)
 
-    # Redraw everything
     screen.fill(COLORS["background"])
     renderer.draw(solarSystem)
     draw_overlay()

@@ -10,6 +10,7 @@ BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 NAV_ACTIVE = (135, 206, 250)  # bleu ciel
 NAV_INACTIVE = LIGHT_GRAY
+export_buttons = []
 
 def wrap_text(text, font, max_width):
     lines = []
@@ -49,21 +50,32 @@ class PlanetInfo:
     def set_view(self, view_key):
         self.current_view = view_key
 
-    #def export_prompt(self, target):
+    def export_prompt(self, target, source):
+        amount = input(f"Enter the amount to export to {target.name}: ")
+
+    def setup_export_btns(self, solar_system, planet, modal_x, left_width, right_width, image_height):
+        y_content = 32
+        for target_planet in solar_system.planets:
+            if target_planet != planet:  # Exclude the current planet
+                btn = Button(target_planet.name, modal_x + left_width + 20, y_content + image_height,
+                             right_width - 40, 40, NAV_ACTIVE, BLACK,
+                             action=lambda p1=target_planet, p2=planet: self.export_prompt(p1,
+                                                                                           p2))  # Placeholder action
+                export_buttons.append(btn)
+                y_content += 50
 
 
     def extract_resources_periodically(self, solar_system):
-        """ Runs every 5 seconds: Loops through planets, adding resources based on extractors. """
         for planet in solar_system.planets:
             if "extractor" in planet.buildings:
                 for resource, num_extractors in planet.buildings["extractor"].items():
                     if num_extractors > 0:
                         planet.inventory[resource] = planet.inventory.get(resource, 0) + num_extractors
                         print(
-                            f"✅ Added {num_extractors} {resource} to {planet.name}. New total: {planet.inventory[resource]}")
+                            f"Added {num_extractors} {resource} to {planet.name}. New total: {planet.inventory[resource]}")
 
     def run(self, screen, planet, solar_system, background_draw_func=None):
-        export_buttons = []
+
         clock = pygame.time.Clock()
         screen_width, screen_height = screen.get_width(), screen.get_height()
         RESOURCE_EXTRACTION_EVENT = pygame.USEREVENT + 1
@@ -73,11 +85,15 @@ class PlanetInfo:
         modal_x = (screen_width - modal_width) // 2
         modal_y = (screen_height - modal_height) // 2
 
+
         left_width = int(modal_width * 0.30)
         right_width = modal_width - left_width
 
         image_height = int(modal_height * 0.50)
         content_height = modal_height - image_height
+
+        self.setup_export_btns(solar_system, planet, modal_x,
+        left_width, right_width, image_height)
 
         close_button_size = 40
         margin = 10
@@ -224,15 +240,7 @@ class PlanetInfo:
                 line_surface = FONT.render(line, True, BLACK)
                 content_surface.blit(line_surface, (10, y_content))
                 y_content += line_surface.get_height() + 5
-            if self.current_view == "export":
-                for target_planet in solar_system.planets:
-                    if target_planet != planet:  # Exclude the current planet
-                        btn = Button(target_planet.name, modal_x + left_width + 20, y_content + image_height,
-                                     right_width - 40, 40, NAV_ACTIVE, BLACK,
-                                     action=lambda p=target_planet: print(
-                                         f"Selected {p.name} for export"))  # Placeholder action
-                        export_buttons.append(btn)
-                        y_content += 50
+
 
             screen.blit(content_surface, (modal_x + left_width, modal_y + image_height))
             if self.current_view == "export":
