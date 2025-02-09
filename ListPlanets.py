@@ -7,7 +7,7 @@ planetList = {
         "Morte",
         "Enfer métallique. Tempêtes solaires mortelles.",
         "planet-bck/Infernis.png",
-        "Noyau de fer en fusion sous une croûte de lave vitrifiée.",
+        "Enfer métallique. Tempêtes solaires mortelles, totalement dépourvue de vie. Recouverte de lacs de lave et de dépôts minéraux. Une base humaine souterraine exploite ses ressources, notamment le fer et les cristaux, sous la protection d’un bouclier orbital.",
         {
             "colonies": [],
             "contrats": "Aucun contrat disponible.",
