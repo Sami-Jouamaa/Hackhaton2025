@@ -89,6 +89,13 @@ class Planet:
             num_dst = dest_planet.inventroy[resource].get(resource, 0)
             amount += num_dst
             dest_planet[resource] = amount
+        elif self.resources.get(resource, 0) < amount and self.resources.get('Fossil_Fuel', 0) >= fuel_cost:
+            amount = self.resources[resource]
+            self.resources[resource] = 0
+            self.exports['Fossil_fuel'] = fuel_cost
+            num_dst = dest_planet.inventory[resource].get(resource, 0)
+            amount += num_dst
+            dest_planet[resource] = amount
 
 
 

@@ -74,7 +74,7 @@ class PlanetInfo:
         # amount = input(f"Enter the amount to export to {target.name}: ")
         
     def finishExporting(self, solarSystem, randomVariable):
-        for planets in solarSystem.planets:
+        for planets in randomVariable.planets:
             if planets.name == source_planet:
                 planets.export(target_planet, ressource_to_export, qty_to_export, 0)
 
@@ -82,6 +82,13 @@ class PlanetInfo:
         y_content = 32
         x_shift = 0
         bs = ""
+        planet_index = 0
+        for planets in solar_system.planets:
+            if planets.name == planet:
+                break
+            else:
+                planet_index += 1
+                
         for target_planet in solar_system.planets:
             if target_planet != planet:  # Exclude the current planet
                 btn = Button(
@@ -92,11 +99,47 @@ class PlanetInfo:
                     40,
                     NAV_ACTIVE,
                     BLACK,
-                    action=lambda p1=target_planet, p2=planet: self.export_prompt(p1, p2)
+                    action=lambda p1=target_planet, p2=planet: self.export_prompt(p1, p2, screen)
                 )
                 export_buttons.append(btn)
                 y_content += 50
-
+        for value in [10, 20, 50, 100]:
+            btn = Button(
+                    f'{value}',
+                    modal_x + left_width + x_shift + 20,
+                    y_content + image_height,
+                    40,
+                    40,
+                    NAV_ACTIVE,
+                    BLACK,
+                    action=lambda p1=value, p2=planet: self.setQtyToExport(p1)
+                )
+            x_shift += 45
+            export_buttons.append(btn)
+        for resources, amount in planet.inventory.items():
+            btn = Button(
+                    f'{resources}',
+                    modal_x + left_width + x_shift + 20,
+                    y_content + image_height,
+                    40,
+                    40,
+                    NAV_ACTIVE,
+                    BLACK,
+                    action=lambda p1=source_planet, p2=bs: self.finishExporting(p1, solar_system)
+                )
+            x_shift += 45
+            export_buttons.append(btn)
+        btn = Button(
+                    "EXPORT",
+                    modal_x + left_width + x_shift + 20,
+                    y_content + image_height,
+                    120,
+                    40,
+                    RED,
+                    BLACK,
+                    action=lambda p1=target_planet, p2=planet: self.export_prompt(p1, p2, screen)
+                )
+        export_buttons.append(btn)
     def extract_resources_periodically(self, solar_system):
         for planet in solar_system.planets:
             if "extractor" in planet.buildings:

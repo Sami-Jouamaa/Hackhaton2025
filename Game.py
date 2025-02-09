@@ -82,18 +82,6 @@ while running:
 
         if event.type == RESOURCE_EXTRACTION_EVENT:
             extract_resources_periodically(solarSystem)
-
-        if not shared.export_done:
-            if event.type == pygame.KEYDOWN:
-                print(event.key)
-                if event.key == pygame.K_BACKSPACE:
-                    shared.qty_input = shared.qty_input[:-1]
-                elif event.key == pygame.K_RETURN:
-                    shared.export_done = True
-                elif pygame.K_0 <= event.key <= pygame.K_9:
-                    shared.qty_input += event.unicode
-                elif pygame.K_a <= event.key <= pygame.K_z:
-                    shared.resType_input += event.unicode
         quit_button.is_clicked(event)
         company_button.is_clicked(event)
         planet_button.is_clicked(event)
