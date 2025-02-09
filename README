@@ -1,0 +1,68 @@
+-- Space Exploration and Sustainable Colonization - README -- 
+
+-- Introduction -- 
+
+Space Exploration and Sustainable Colonization est une simulation spatiale de gestion des ressources et d'exploration interplanétaire. Le jeu intègre une IA économique pour modéliser l'offre et la demande des ressources, et une simulation écologique pour suivre l'impact environnemental des activités industrielles.
+
+-- Objectifs -- 
+
+-> Explorer des systèmes solaires et leurs planètes.
+-> Exploiter les ressources disponibles et gérer leur transport.
+-> Construire des infrastructures pour l'extraction et le commerce.
+-> Optimiser l'économie interplanétaire avec un marché dynamique.
+-> Gérer l’impact environnemental des activités humaines.
+
+-- Structure du Projet -- 
+
+Le projet est structuré en plusieurs modules, chacun responsable d'un aspect spécifique du jeu.
+
+1. Gestion des Planètes (Planet.py)
+
+* Planet : Représente une planète et ses caractéristiques.
+* update_orbit() : Met à jour la position orbitale.
+* export(dest_planet, resource, amount, fuel_cost) : Gère les échanges de ressources.
+* extract_resources_periodically() : Gère l'extraction automatique selon les infrastructures construites.
+* SolarSystem : Contient toutes les planètes et les met à jour.
+* update() : Met à jour la position des planètes dans leur orbite.
+
+2. Économie et Commerce (CompanyLogic.py)
+
+- Company : Gère les finances et les échanges.
+- trade() : Achats et ventes de ressources.
+- update_market() : Ajuste dynamiquement les prix en fonction de l'offre et de la demande.
+- Contrat : Représente des contrats d’échange entre planètes.
+
+3. Simulation et IA (chatgpt) : (PlanetManager.py)
+
+~ simulate_pollution(planet) : Calcule l'impact de l'extraction sur la pollution.
+~ extract_resources(planet, resource_type, amount) : Assure l'extraction et met à jour les stocks de ressources.
+~ build_structure(planet, structure, amount) : Permet la construction de bâtiments (extracteurs, dépollueurs, centres de recherche, etc.).
+~ mieux coder interface utilisateur. 
+
+4. Interface Graphique (Pygame)
+
+- PlanetRenderer : Affichage des planètes et de leurs orbites.
+- draw() : Dessine les planètes et leurs trajectoires orbitales.
+- PlanetInfo : Interface d’information sur les planètes.
+- run() : Gère l’affichage des caractéristiques et options d’interaction.
+- CompanyMenu : Affichage des informations économiques.
+- run() : Affiche les options de gestion des ressources et de commerce.
+
+-- Technologies Utilisées -- 
+
+-> Pygame : Rendu graphique et interactions utilisateur.
+-> Python (math, random) : Calculs orbitaux et génération procédurale.
+-> Modélisation IA : Équilibrage de l'offre et de la demande.
+
+-- Comment Jouer ? -- 
+
+1. Lancez le jeu : python main.py
+2. Naviguez dans le système solaire : Cliquez sur une planète pour voir ses détails.
+3. Construisez des infrastructures : Usines, extracteurs, centres de recherche.
+4. Commercez des ressources : Achetez, vendez et gérez l'économie.
+5. Gérez l’environnement : Limitez la pollution pour éviter des sanctions.
+
+-- Conclusion -- 
+
+Ce projet combine exploration spatiale, gestion économique et simulation écologique pour proposer une expérience immersive et stratégique.
+
