@@ -116,7 +116,7 @@ class SolarSystem:
         orbit_speed = 0.32/(4 + 1)
         planet = Planet(f"Chloria", p_type, orbit_r, orbit_speed)
         planet.radius = 15
-        planet.color = "./planet-pic/Chloria.png
+        planet.color = "./planet-pic/Chloria.png"
         planet.sommaire = "Monde toxique au chlore. Extraction risquée."
         planet.description = "Atmosphère corrosive de chlure d'hydrogène. Paysages de cristaux ionisés."
         self.planets.append(planet)
