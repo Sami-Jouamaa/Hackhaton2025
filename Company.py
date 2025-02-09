@@ -2,7 +2,7 @@ import pygame
 from Button import Button
 from CompanyLogic import company
 
-
+# Initialisation des polices et des couleurs
 FONT = pygame.font.Font(None, 32)
 TITLE_FONT = pygame.font.Font(None, 40)
 
@@ -35,21 +35,25 @@ class CompanyMenu:
         clock = pygame.time.Clock()
         screen_width, screen_height = screen.get_width(), screen.get_height()
 
+        # Dimensions et position du panneau principal
         panel_width = 1000
         panel_height = 700
         panel_x = (screen_width - panel_width) // 2
         panel_y = (screen_height - panel_height) // 2
 
+        # Dimensions et position de la sidebar
         sidebar_width = 200
         sidebar_height = panel_height
         sidebar_x = panel_x
         sidebar_y = panel_y
 
+        # Zone de contenu
         content_x = panel_x + sidebar_width
         content_y = panel_y
         content_width = panel_width - sidebar_width
         content_height = panel_height
 
+        # Paramètres des boutons de la sidebar
         btn_height = 50
         btn_spacing = 10
         btn_x = sidebar_x + 20
@@ -58,35 +62,36 @@ class CompanyMenu:
         sidebar_buttons = []
 
         btn_infos = Button("Infos", btn_x, btn_y, sidebar_width - 40, btn_height,
-                           LIGHT_BLUE, WHITE,
-                           action=lambda: self.set_section("informations"))
+                            LIGHT_BLUE, WHITE,
+                            action=lambda: self.set_section("informations"))
         sidebar_buttons.append(btn_infos)
         btn_y += btn_height + btn_spacing
 
         btn_contrats = Button("Contrats", btn_x, btn_y, sidebar_width - 40, btn_height,
-                              LIGHT_BLUE, WHITE,
-                              action=lambda: self.set_section("contrats"))
+                               LIGHT_BLUE, WHITE,
+                               action=lambda: self.set_section("contrats"))
         sidebar_buttons.append(btn_contrats)
         btn_y += btn_height + btn_spacing
 
         btn_inventaire = Button("Inventaire", btn_x, btn_y, sidebar_width - 40, btn_height,
-                                LIGHT_BLUE, WHITE,
-                                action=lambda: self.set_section("inventaire"))
+                                 LIGHT_BLUE, WHITE,
+                                 action=lambda: self.set_section("inventaire"))
         sidebar_buttons.append(btn_inventaire)
         btn_y += btn_height + btn_spacing
 
         btn_trade_routes = Button("Trade Routes", btn_x, btn_y, sidebar_width - 40, btn_height,
-                                  LIGHT_BLUE, WHITE,
-                                  action=lambda: self.set_section("trade_routes"))
+                                   LIGHT_BLUE, WHITE,
+                                   action=lambda: self.set_section("trade_routes"))
         sidebar_buttons.append(btn_trade_routes)
         btn_y += btn_height + btn_spacing
 
         btn_technologies = Button("Technologies", btn_x, btn_y, sidebar_width - 40, btn_height,
-                                  LIGHT_BLUE, WHITE,
-                                  action=lambda: self.set_section("technologies"))
+                                   LIGHT_BLUE, WHITE,
+                                   action=lambda: self.set_section("technologies"))
         sidebar_buttons.append(btn_technologies)
         btn_y += btn_height + btn_spacing
 
+        # Bouton de fermeture du panneau
         close_button_size = 40
         margin = 10
         close_button = CloseButton("X",
@@ -95,22 +100,36 @@ class CompanyMenu:
                                    close_button_size, close_button_size,
                                    RED, WHITE,
                                    action=self.close)
-        tech_buttons = []
-        for tech, tech_item in self.company_data.technologies.items():
-            button_color = (0, 255, 0) if tech_item.level < tech_item.max_level else (
-                169, 169, 169)
-            upgrade_button = Button(
-                "Upgrade",
-                content_x, content_y, 110, 35,
-                button_color, WHITE,
-                action=lambda t=tech_item: company.upgrade(t, solarSystem),
-            )
-            tech_buttons.append(upgrade_button)
 
+        # Boucle principale de l'interface CompanyMenu
         while self.running:
             if background_draw_func:
                 background_draw_func()
 
+            # --- Calcul dynamique des boutons "Upgrade" pour la section technologies
+            tech_buttons = []
+            if self.selected_section == "technologies":
+                content_margin = 20
+                # On calcule la position initiale (après le titre)
+                title_surface = FONT.render("Technologies", True, (0, 0, 0))
+                tech_y = content_y + content_margin + title_surface.get_height() + 10
+                # Pour chaque technologie, on crée un bouton "Upgrade" positionné à droite
+                for tech, tech_item in self.company_data.technologies.items():
+                    button_x = content_x + content_width - 110 - content_margin
+                    # Positionner le bouton juste après 2 lignes de texte (environ 27px chacune)
+                    button_y = tech_y + 27 + 27
+                    button_color = (0, 255, 0) if tech_item.level < tech_item.max_level else (169, 169, 169)
+                    upgrade_button = Button(
+                        "Upgrade",
+                        button_x, button_y, 110, 35,
+                        button_color, WHITE,
+                        action=lambda t=tech_item: company.upgrade(t, solarSystem)
+                    )
+                    tech_buttons.append(upgrade_button)
+                    # Incrémente tech_y pour le bloc suivant (2 lignes de texte + un espace de 40px)
+                    tech_y += 27 + 27 + 40
+
+            # --- Traitement des événements
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
@@ -124,6 +143,7 @@ class CompanyMenu:
                 for button in tech_buttons:
                     button.is_clicked(event)
 
+            # --- Dessin du panneau principal
             panel_rect = pygame.Rect(panel_x, panel_y, panel_width, panel_height)
             pygame.draw.rect(screen, WHITE, panel_rect)
 
@@ -131,16 +151,17 @@ class CompanyMenu:
             profit_rect = profit_text.get_rect(center=(panel_x + panel_width // 2, panel_y + 30))
             screen.blit(profit_text, profit_rect)
 
+            # Sidebar
             sidebar_rect = pygame.Rect(sidebar_x, sidebar_y, sidebar_width, sidebar_height)
             pygame.draw.rect(screen, WHITE, sidebar_rect)
-
             for button in sidebar_buttons:
                 button.draw(screen)
 
-
+            # Zone de contenu
             content_rect = pygame.Rect(content_x, content_y, content_width, content_height)
             pygame.draw.rect(screen, WHITE, content_rect)
 
+            # Création d'une surface pour le contenu
             content_surface = pygame.Surface((content_width, content_height))
             content_surface.fill(WHITE)
             content_margin = 20
@@ -150,15 +171,14 @@ class CompanyMenu:
                 title = FONT.render("Informations Générales", True, (0, 0, 0))
                 content_surface.blit(title, (content_margin, text_y))
                 text_y += title.get_height() + 10
-                profit_line = FONT.render(f"Banque: {"{:,}".format(self.company_data.bank)} M GLD", True, (0, 0, 0))
+                profit_line = FONT.render(f"Banque: {'{:,}'.format(self.company_data.bank)} M GLD", True, (0, 0, 0))
                 content_surface.blit(profit_line, (content_margin, text_y))
                 text_y += profit_line.get_height() + 5
                 employes = self.company_data.employees
                 employes_line = FONT.render(f"Employés: {employes}", True, (0, 0, 0))
                 content_surface.blit(employes_line, (content_margin, text_y))
                 text_y += employes_line.get_height() + 5
-                resources = self.company_data.resources
-                for res, qty in resources.items():
+                for res, qty in self.company_data.resources.items():
                     res_line = FONT.render(f"{res}: {qty} tonnes galactiques", True, (0, 0, 0))
                     content_surface.blit(res_line, (content_margin, text_y))
                     text_y += res_line.get_height() + 5
@@ -207,17 +227,21 @@ class CompanyMenu:
                 text_y += title.get_height() + 10
                 for tech, tech_item in self.company_data.technologies.items():
                     line = FONT.render(f"- {tech}, niveau {tech_item.level}", True, (0, 0, 0))
-                    line2 = FONT.render(f"{'niveau max' if tech_item.level == tech_item.max_level else ', '.join(f'{resource}: {cost}' for resource, cost in tech_item.resources_till_level.items())}"
-                        f"{f' + {tech_item.money_till_level}' if tech_item.level < tech_item.max_level else ''}",
-                        True, (0, 0, 0))
                     content_surface.blit(line, (content_margin, text_y))
                     text_y += 27
+                    line2 = FONT.render(
+                        f"{'niveau max' if tech_item.level == tech_item.max_level else ', '.join(f'{resource}: {cost}' for resource, cost in tech_item.resources_till_level.items())}{f' + {tech_item.money_till_level}' if tech_item.level < tech_item.max_level else ''}",
+                        True, (0, 0, 0)
+                    )
                     content_surface.blit(line2, (content_margin, text_y))
                     text_y += 27
                     text_y += 40
 
+            # Blitter la surface de contenu dans la zone prévue
             screen.blit(content_surface, (content_x, content_y))
-            if (self.selected_section == "technologies"):
+
+            # Si la section technologies est sélectionnée, dessiner les boutons upgrade calculés
+            if self.selected_section == "technologies":
                 for button in tech_buttons:
                     button.draw(screen)
 
