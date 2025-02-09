@@ -3,6 +3,8 @@ from Planet import PlanetRenderer, SolarSystem, COLORS, PlanetManager
 from Button import Button
 from Company import CompanyMenu
 from ListPlanets import planetList
+from PlanetInfo import PlanetInfo
+from CompanyLogic import company
 import math
 
 pygame.init()
@@ -28,6 +30,9 @@ def showPlanetInfo():
         text_surface = game_font.render(text, False, (255, 255, 255))
         screen.blit(text_surface, (960, 540))
         i += 1
+    planet_info = planetList[str(index)]
+    ui = PlanetInfo(planet_info)
+    ui.run(screen, background_draw_func=lambda: renderer.draw(solarSystem))
 
 def quit_game():
     global running
@@ -36,28 +41,15 @@ def quit_game():
 def nothing():
     pass
 
-# Définition unique de open_company_menu (avec background_draw_func)
 def open_company_menu():
-    menu = CompanyMenu(company_data)
+    menu = CompanyMenu(company)
     menu.run(screen, background_draw_func=lambda: renderer.draw(solarSystem))
 
-# Créez le bouton "Quitter"
 quit_button = Button("Quitter", 1520, 125, 200, 60, RED, BLACK, quit_game)
-# IMPORTANT : Attribuez open_company_menu au bouton "Compagnie"
 company_button = Button("Compagnie", 200, 900, 200, 60, WHITE, BLACK, open_company_menu)
 planet_button = Button("Planete", 1520, 900, 200, 60, WHITE, BLACK, showPlanetInfo)
 
-company_data = {
-    "profit": 100000,
-    "employes": 10,
-    "contrats": ["Contrat d'extraction", "Contrat de minage", "Contrat d'expedition"],
-    "trade_routes": ["Terre -> Cholria", "Cryogenia -> Infernus"],
-    "technologies": ["Propulseur nucleaire", "Voile spatiale"],
-    "inventaire": {
-        "ressources": ["Eau", "Fer", "Carburant"],
-        "equipement": ["Fusée", "Satellite"]
-    }
-}
+
 
 def draw_overlay():
     overlay = pygame.Surface((1920, 1080))

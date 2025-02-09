@@ -116,9 +116,9 @@ class SolarSystem:
         orbit_speed = 0.32/(4 + 1)
         planet = Planet(f"Chloria", p_type, orbit_r, orbit_speed)
         planet.radius = 15
-        planet.color = "./planet-pic/Chloria.png"
-        planet.sommaire = "Monde toxique : Chloria est une planète entièrement recouverte d’un océan toxique, composé à 90 % de chlore. Son atmosphère est irrespirable, et aucune forme de vie n’y existe. Ses profondeurs cachent des gisements de diamants, de cristaux rares et de gaz naturels, mais l’accès est extrêmement dangereux. Toute exploration nécessite des équipements hermétiques et des véhicules submersibles spécialisés."
-        planet.description = "Planete où un océan saturé de chlore s’étend à perte de vue sous une atmosphère irrespirable et instable. Aucune terre émergée n’existe, et seuls des sous-marins hermétiques peuvent s’aventurer dans ses profondeurs, où la pression extrême et les courants acides rendent toute mission périlleuse. Sous la croûte océanique, d’immenses gisements de diamants et de cristaux rares sont enfouis, formés sous une pression colossale, mais leur extraction est entravée par les poches de gaz explosifs qui parsèment la planète. Toute expédition sur Chloria requiert une technologie avancée et un blindage anti-corrosion, car la moindre faille dans l’équipement condamne instantanément les explorateurs à une mort certaine."
+        planet.color = "./planet-pic/Chloria.png
+        planet.sommaire = "Monde toxique au chlore. Extraction risquée."
+        planet.description = "Atmosphère corrosive de chlure d'hydrogène. Paysages de cristaux ionisés."
         self.planets.append(planet)
         
         #Planet 6
