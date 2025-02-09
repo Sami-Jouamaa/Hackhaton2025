@@ -2,7 +2,7 @@ class Company:
     def __init__(self):
         self.bank = 1000
         self.employees = 100
-        self.resources = {'Fer': 100, 'Acier': 200, 'Fossil_Fuel': 500}  
+        self.resources = {'Fer': 100, 'Acier': 200}
         self.contrats = []
         self.equipement = []
         self.technologies = {}
@@ -29,27 +29,6 @@ class Company:
                     else:
                         planet.inventory[key] -= num
                         break
-    
-    def create_export_route(self, source_planet, dest_planet, resource, amount, fuel_cost_per_unit=1):
-        total_fuel_cost = fuel_cost_per_unit * amount
-
-        # Check if company has enough fossil fuel
-        if self.resources.get('Fossil_Fuel', 0) >= total_fuel_cost:
-            self.resources['Fossil_Fuel'] -= total_fuel_cost  # Reduce fuel stock
-            source_planet.resources[resource] -= amount  # Remove from source
-            dest_planet.resources[resource] = dest_planet.resources.get(resource, 0) + amount  # Add to destination
-
-            # Store trade route
-            self.trade_routes.append({
-                'source': source_planet,
-                'destination': dest_planet,
-                'resource': resource,
-                'amount': amount,
-                'fuel_cost': total_fuel_cost
-            })
-            return True
-        
-        return False  # Export fails if not enough fossil fuel
 
 
 
@@ -84,4 +63,3 @@ company.technologies = {
     'decarbonizeur': Technology('decarbonizeur', 0, 5, {'supermetal': 200, 'Cristaux': 100, 'Titanium': 100},10000),
     'fabricateur': Technology('fabricateur', 1, 5, {'supermetal': 200, 'acier': 200, 'cuivre': 200}, 10000)
 }
-
