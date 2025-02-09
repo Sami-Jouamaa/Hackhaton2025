@@ -112,7 +112,16 @@ while running:
 
     solarSystem.update(dt)
 
-    screen.fill(COLORS["background"])
+    image = pygame.image.load("background.jpg")
+    background_surface = pygame.Surface((screen.get_width(), screen.get_height()), pygame.SRCALPHA)
+    scaled_image = pygame.transform.scale(image, (screen.get_width(), screen.get_height()))
+    background_surface.blit(scaled_image, (0, 0))
+
+    mask = pygame.Surface((1920, 1080), pygame.SRCALPHA)
+    pygame.draw.circle(mask, (255, 255, 255), (960, 540), screen.get_width())
+    background_surface.blit(mask, (0, 0), special_flags=pygame.BLEND_RGBA_MIN)
+    screen.blit(background_surface, (0, 0))
+
     renderer.draw(solarSystem)
     draw_overlay()
     pygame.display.flip()
