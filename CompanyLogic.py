@@ -2,26 +2,18 @@ class Company:
     def __init__(self):
         self.bank = 1000
         self.employees = 100
-        self.resources = {'Fer': 100}
+        self.resources = {'Fer': 100, 'Acier': 200}
         self.contrats = []
         self.equipement = []
         self.technologies = {}
         self.trade_routes = []
         self.upgrading_tech = {}
 
-    def upgrade(self, tech):
-        self.upgrading_tech = self.technologies[tech]
+    def upgrade(self, tech, planet):
+        valid = True
+        for key, value in tech.resources_till_level.items():
 
-    def send_to_upgrading(self, resource):
-        name = resource.keys[0]
-        self.upgrading_tech.resources_till_level -= resource[name]
-        done = True
-        for name, amt in self.upgrading_tech.items():
-            if amt < 0:
-                done = False
-        if done:
-            self.upgrading_tech[name].level_up()
-            self.upgrading_tech = {}
+        tech.level_up()
 
 
 
@@ -50,7 +42,7 @@ class Technology:
 
 company = Company()
 company.technologies = {
-    'fusee': Technology('fusee', 1, 5, {'acier': 200, 'bronze': 200},10000),
+    'fusee': Technology('fusee', 1, 5, {'acier': 0, 'bronze': 0},10000),
     'extracteur': Technology('extracteur', 1, 5, {'acier': 200, 'bronze': 200},10000),
     'decarbonizeur': Technology('decarbonizeur', 0, 5, {'supermetal': 200, 'Cristaux': 100, 'Titanium': 100},10000),
     'fabricateur': Technology('fabricateur', 1, 5, {'supermetal': 200, 'acier': 200, 'cuivre': 200}, 10000)
