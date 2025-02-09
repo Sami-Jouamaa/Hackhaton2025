@@ -171,6 +171,8 @@ class PlanetInfo:
             y_nav += nav_button_height + nav_button_spacing
 
         while self.running:
+            view_contents["inventaire"] = "\n".join(
+                f"{key}: {value} tonnes galactiques" for key, value in planet.inventory.items())
             for event in pygame.event.get():
                 if event.type == RESOURCE_EXTRACTION_EVENT:
                     self.extract_resources_periodically(solar_system)
