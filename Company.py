@@ -1,5 +1,6 @@
 import pygame
 from Button import Button
+from CompanyLogic import company
 
 
 FONT = pygame.font.Font(None, 32)
@@ -113,7 +114,7 @@ class CompanyMenu:
             panel_rect = pygame.Rect(panel_x, panel_y, panel_width, panel_height)
             pygame.draw.rect(screen, WHITE, panel_rect)
 
-            profit_text = TITLE_FONT.render(f"Profit: {self.company_data.get('profit', 0)} GLD", True, (255, 215, 0))
+            profit_text = TITLE_FONT.render(f"Profit: {self.company_data.bank} GLD", True, (255, 215, 0))
             profit_rect = profit_text.get_rect(center=(panel_x + panel_width // 2, panel_y + 30))
             screen.blit(profit_text, profit_rect)
 
@@ -135,14 +136,14 @@ class CompanyMenu:
                 title = FONT.render("Informations Générales", True, (0, 0, 0))
                 content_surface.blit(title, (content_margin, text_y))
                 text_y += title.get_height() + 10
-                profit_line = FONT.render(f"Profit: {self.company_data.get('profit', 0)} GLD", True, (0, 0, 0))
+                profit_line = FONT.render(f"Banque: {"{:,}".format(self.company_data.bank)} M GLD", True, (0, 0, 0))
                 content_surface.blit(profit_line, (content_margin, text_y))
                 text_y += profit_line.get_height() + 5
-                employes = self.company_data.get("employes", "N/A")
+                employes = self.company_data.employees
                 employes_line = FONT.render(f"Employés: {employes}", True, (0, 0, 0))
                 content_surface.blit(employes_line, (content_margin, text_y))
                 text_y += employes_line.get_height() + 5
-                resources = self.company_data.get("resources", {})
+                resources = self.company_data.resources
                 for res, qty in resources.items():
                     res_line = FONT.render(f"{res}: {qty} tonnes galactiques", True, (0, 0, 0))
                     content_surface.blit(res_line, (content_margin, text_y))
@@ -152,7 +153,7 @@ class CompanyMenu:
                 title = FONT.render("Contrats", True, (0, 0, 0))
                 content_surface.blit(title, (content_margin, text_y))
                 text_y += title.get_height() + 10
-                for contrat in self.company_data.get("contrats", []):
+                for contrat in self.company_data.contrats:
                     line = FONT.render(f"- {contrat}", True, (0, 0, 0))
                     content_surface.blit(line, (content_margin, text_y))
                     text_y += line.get_height() + 5
@@ -164,15 +165,15 @@ class CompanyMenu:
                 ressources_title = FONT.render("Ressources:", True, (0, 0, 0))
                 content_surface.blit(ressources_title, (content_margin, text_y))
                 text_y += ressources_title.get_height() + 5
-                for res in self.company_data.get("inventaire", {}).get("ressources", []):
+                for res in self.company_data.resources:
                     line = FONT.render(f"- {res}", True, (0, 0, 0))
                     content_surface.blit(line, (content_margin + 20, text_y))
                     text_y += line.get_height() + 5
                 text_y += 10
-                equipement_title = FONT.render("Équipement:", True, (0, 0, 0))
+                equipement_title = FONT.render("Equipement:", True, (0, 0, 0))
                 content_surface.blit(equipement_title, (content_margin, text_y))
                 text_y += equipement_title.get_height() + 5
-                for eq in self.company_data.get("inventaire", {}).get("equipement", []):
+                for tech in self.company_data.equipement:
                     line = FONT.render(f"- {eq}", True, (0, 0, 0))
                     content_surface.blit(line, (content_margin + 20, text_y))
                     text_y += line.get_height() + 5
@@ -181,7 +182,7 @@ class CompanyMenu:
                 title = FONT.render("Trade Routes", True, (0, 0, 0))
                 content_surface.blit(title, (content_margin, text_y))
                 text_y += title.get_height() + 10
-                for route in self.company_data.get("trade_routes", []):
+                for route in self.company_data.trade_routes:
                     line = FONT.render(f"- {route}", True, (0, 0, 0))
                     content_surface.blit(line, (content_margin, text_y))
                     text_y += line.get_height() + 5
@@ -190,7 +191,7 @@ class CompanyMenu:
                 title = FONT.render("Technologies", True, (0, 0, 0))
                 content_surface.blit(title, (content_margin, text_y))
                 text_y += title.get_height() + 10
-                for tech in self.company_data.get("technologies", []):
+                for tech in self.company_data.technologies:
                     line = FONT.render(f"- {tech}", True, (0, 0, 0))
                     content_surface.blit(line, (content_margin, text_y))
                     text_y += line.get_height() + 5
