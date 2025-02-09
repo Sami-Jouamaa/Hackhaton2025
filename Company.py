@@ -171,7 +171,7 @@ class CompanyMenu:
                 title = FONT.render("Informations Générales", True, (0, 0, 0))
                 content_surface.blit(title, (content_margin, text_y))
                 text_y += title.get_height() + 10
-                profit_line = FONT.render(f"Banque: {'{:,}'.format(self.company_data.bank)} M GLD", True, (0, 0, 0))
+                profit_line = FONT.render(f"Banque: {format(self.company_data.bank)} M GLD", True, (0, 0, 0))
                 content_surface.blit(profit_line, (content_margin, text_y))
                 text_y += profit_line.get_height() + 5
                 employes = self.company_data.employees

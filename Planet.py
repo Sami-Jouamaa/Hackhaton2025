@@ -82,7 +82,8 @@ class Planet:
         self.pos = (int(x), int(y))
 
     def export(self, dest_planet, resource, amount, fuel_cost):
-        if self.resources.get(resource, 0) >= amount and self.resources.get('Fossil_Fuel', 0) > fuel_cost:
+        """ Adds an export from this planet to another """
+        if self.resources.get(resource, 0) >= amount and self.resources.get('Fossil_Fuel', 0) >= fuel_cost:
             self.resources[resource] -= amount  # Deduct from stock
             self.exports['Fossil_Fuel'] = fuel_cost
             num_dst = dest_planet.inventroy[resource].get(resource, 0)

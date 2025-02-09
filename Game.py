@@ -1,5 +1,4 @@
 import pygame
-import threading
 from Planet import PlanetRenderer, SolarSystem, COLORS, PlanetManager
 from Button import Button
 from Company import CompanyMenu
@@ -7,6 +6,7 @@ from ListPlanets import planetList
 from PlanetInfo import PlanetInfo
 from CompanyLogic import company
 import math
+import shared
 
 pygame.init()
 pygame.font.init()
@@ -73,7 +73,8 @@ def extract_resources_periodically(solar_system):
                 if num_extractors > 0:
                     planet.inventory[resource] = planet.inventory.get(resource, 0) + num_extractors
                     print(f"✅ Added {num_extractors} {resource} to {planet.name}. New total: {planet.inventory[resource]}")
-
+ 
+    
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -82,6 +83,17 @@ while running:
         if event.type == RESOURCE_EXTRACTION_EVENT:
             extract_resources_periodically(solarSystem)
 
+        if not shared.export_done:
+            if event.type == pygame.KEYDOWN:
+                print(event.key)
+                if event.key == pygame.K_BACKSPACE:
+                    shared.qty_input = shared.qty_input[:-1]
+                elif event.key == pygame.K_RETURN:
+                    shared.export_done = True
+                elif pygame.K_0 <= event.key <= pygame.K_9:
+                    shared.qty_input += event.unicode
+                elif pygame.K_a <= event.key <= pygame.K_z:
+                    shared.resType_input += event.unicode
         quit_button.is_clicked(event)
         company_button.is_clicked(event)
         planet_button.is_clicked(event)

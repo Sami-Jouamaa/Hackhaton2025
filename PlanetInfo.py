@@ -14,6 +14,12 @@ NAV_INACTIVE = LIGHT_GRAY
 
 export_buttons = []
 
+# Export variables
+target_planet = ""
+source_planet = ""
+ressource_to_export = ""
+qty_to_export = 0
+
 def wrap_text(text, font, max_width):
     lines = []
     paragraphs = text.split("\n")
@@ -51,11 +57,31 @@ class PlanetInfo:
     def set_view(self, view_key):
         self.current_view = view_key
 
-    def export_prompt(self, target, source):
-        amount = input(f"Enter the amount to export to {target.name}: ")
+    def setQtyToExport(self, quantity):
+        qty_to_export = quantity
+        print("what the fuck is happening")
+        print(qty_to_export)
+        return quantity
+    
+    def set_res_export(self, ressource):
+        ressource_to_export = ressource
 
-    def setup_export_btns(self, solar_system, planet, modal_x, left_width, right_width, image_height):
+    def export_prompt(self, target, source, screen):
+        print(source)
+        source_planet = source
+        target_planet = target
+        
+        # amount = input(f"Enter the amount to export to {target.name}: ")
+        
+    def finishExporting(self, solarSystem, randomVariable):
+        for planets in solarSystem.planets:
+            if planets.name == source_planet:
+                planets.export(target_planet, ressource_to_export, qty_to_export, 0)
+
+    def setup_export_btns(self, solar_system, planet, modal_x, left_width, right_width, image_height, screen):
         y_content = 32
+        x_shift = 0
+        bs = ""
         for target_planet in solar_system.planets:
             if target_planet != planet:  # Exclude the current planet
                 btn = Button(
@@ -95,7 +121,8 @@ class PlanetInfo:
         image_height = int(modal_height * 0.50)
         content_height = modal_height - image_height
 
-        self.setup_export_btns(solar_system, planet, modal_x, left_width, right_width, image_height)
+        self.setup_export_btns(solar_system, planet, modal_x,
+        left_width, right_width, image_height, screen)
 
         close_button_size = 40
         margin = 10
