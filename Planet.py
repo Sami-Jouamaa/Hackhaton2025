@@ -108,6 +108,8 @@ class SolarSystem:
         planet.radius = 15
         planet.color = "./planet-pic/Terre.png"
         planet.buildings['extractor']['fer'] = 1
+        planet.buildings['extractor']['carbon'] = 0
+        planet.buildings['extractor']['petrole'] = 0
         planet.sommaire = "Planète mère de l’humanité et une des rares planètes connues à abriter une vie complexe. Autrefois en parfait équilibre écologique, elle a subi de graves dommages environnementaux dus à l’exploitation humaine. Malgré une pollution croissante, elle reste un monde habitable avec des ressources vitales comme l’eau, l’oxygène et les terres fertiles."
         planet.description = "Abritant une biodiversité exceptionnelle et un écosystème fragile. Son atmosphère, riche en oxygène et en azote, permet le développement de formes de vie variées, des océans aux continents. Toutefois, des siècles d’industrialisation et de surexploitation des ressources ont provoqué une pollution massive, affectant la qualité de l’air, de l’eau et des sols. L’exploitation de ressources naturelles comme l’eau potable, les forêts, les métaux rares et les combustibles fossiles continue, mais sous des restrictions de plus en plus strictes pour limiter les dégâts environnementaux. Avec une gravité stable et une température modérée, la Terre reste un habitat idéal, bien que son avenir dépende désormais des efforts pour restaurer son équilibre écologique."
         self.planets.append(planet)
